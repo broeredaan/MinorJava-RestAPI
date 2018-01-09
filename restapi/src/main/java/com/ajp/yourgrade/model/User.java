@@ -1,11 +1,46 @@
 package com.ajp.yourgrade.model;
 
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table(name = "user")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId")
     private int id;
     private String name;
     private String email;
     private boolean isAdmin;
     private String password;
+    private String language;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Template> templates;
+
+    protected User(){}
+
+    public User(String name, String email, boolean isAdmin, String password, String language) {
+        this.name = name;
+        this.email = email;
+        this.isAdmin = isAdmin;
+        this.password = password;
+        this.language = language;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", password='" + password + '\'' +
+                ", language='" + language + '\'' +
+                '}';
+    }
 
     public int getId() {
         return id;
@@ -55,5 +90,11 @@ public class User {
         this.language = language;
     }
 
-    private String language;
+    public Set<Template> getTemplates() {
+        return templates;
+    }
+
+    public void setTemplates(Set<Template> template) {
+        this.templates = template;
+    }
 }

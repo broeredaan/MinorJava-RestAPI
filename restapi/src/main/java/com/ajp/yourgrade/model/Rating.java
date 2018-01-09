@@ -1,11 +1,45 @@
 package com.ajp.yourgrade.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "rating")
 public class Rating {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ratingId")
     private int id;
-    private int groupId;
-    private int memberId;
     private double grade;
     private String comment;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "groupMemberId")
+    private GroupMember groupMember;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ratedMemberId")
+    private GroupMember ratedMember;
+
+    protected Rating(){}
+
+    public Rating(double grade, String comment, GroupMember groupMember, GroupMember ratedMember) {
+        this.grade = grade;
+        this.comment = comment;
+        this.groupMember = groupMember;
+        this.ratedMember = ratedMember;
+    }
+
+    @Override
+    public String toString() {
+        return "Rating{" +
+                "id=" + id +
+                ", grade=" + grade +
+                ", comment='" + comment + '\'' +
+                ", groupMember=" + groupMember +
+                ", ratedMember=" + ratedMember +
+                '}';
+    }
 
     public int getId() {
         return id;
@@ -13,22 +47,6 @@ public class Rating {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
-
-    public int getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(int memberId) {
-        this.memberId = memberId;
     }
 
     public double getGrade() {
@@ -45,5 +63,21 @@ public class Rating {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public GroupMember getGroupMember() {
+        return groupMember;
+    }
+
+    public void setGroupMember(GroupMember groupMember) {
+        this.groupMember = groupMember;
+    }
+
+    public GroupMember getRatedMember() {
+        return ratedMember;
+    }
+
+    public void setRatedMember(GroupMember ratedMember) {
+        this.ratedMember = ratedMember;
     }
 }
