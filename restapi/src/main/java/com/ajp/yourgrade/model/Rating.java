@@ -1,5 +1,7 @@
 package com.ajp.yourgrade.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,10 +15,12 @@ public class Rating {
     private double grade;
     private String comment;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "groupMemberId")
     private GroupMember groupMember;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ratedMemberId")
     private GroupMember ratedMember;

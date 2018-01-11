@@ -1,5 +1,6 @@
 package com.ajp.yourgrade.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
@@ -7,18 +8,19 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "group")
+@Table(name = "projectGroup")
 public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "groupId")
+    @Column(name = "projectGroupId")
     private int id;
     private String name;
-    private Date creationData;
+    private Date creationDate;
     private Date deadline;
     private double groupGrade;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "templateId")
     private Template template;
@@ -28,9 +30,9 @@ public class Group {
 
     protected Group(){}
 
-    public Group(String name, Date creationData, Date deadline, double groupGrade, Template template) {
+    public Group(String name, Date creationDate, Date deadline, double groupGrade, Template template) {
         this.name = name;
-        this.creationData = creationData;
+        this.creationDate = creationDate;
         this.deadline = deadline;
         this.groupGrade = groupGrade;
         this.template = template;
@@ -41,7 +43,7 @@ public class Group {
         return "Group{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", creationData=" + creationData +
+                ", creationData=" + creationDate +
                 ", deadline=" + deadline +
                 ", groupGrade=" + groupGrade +
                 ", template=" + template +
@@ -65,12 +67,12 @@ public class Group {
         this.name = name;
     }
 
-    public Date getCreationData() {
-        return creationData;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreationData(Date creationData) {
-        this.creationData = creationData;
+    public void setCreationDate(Date creationData) {
+        this.creationDate = creationData;
     }
 
     public Date getDeadline() {

@@ -51,36 +51,51 @@ public class RestController {
      * TEST METHOD. Used to test database integration. SHOULD GET REMOVED.
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET, path = "test")
-    public ResponseEntity<List<String>> addUsers(){
+    @RequestMapping(method = RequestMethod.GET, path = "addTest")
+    public ResponseEntity<String> addUsers(){
         User user = new User("Test Name", "test@mail.com", true, "testPass", "en-EN");
+        User user2 = new User("Name Test", "test2@mail.com", false, "testPass", "en-EN");
         Template template = new Template("Test", 2, true, user);
-//        Group group = new Group("Test", new Date(), new Date(), 7, template);
-//        GroupMember member = new GroupMember("Test Name", "test@mail.com", "AG#WHY$JYISRHNESHNESHI#h93", false, group);
-//        Rating rating = new Rating(6, "You suck!", member, member);
+        Template template2 = new Template("Test2", 1, false, user);
+        Template template3 = new Template("Test", 2, true, user2);
+        Group group = new Group("Test", new Date(), new Date(), 7, template);
+        Group group2 = new Group("Test2", new Date(), new Date(), 7, template2);
+        Group group3 = new Group("Test", new Date(), new Date(), 7, template3);
+        GroupMember member = new GroupMember("Test Name", "test@mail.com", "AG#WHY$JYISRHNESHNESHI#h93", false, group);
+        GroupMember member2 = new GroupMember("Name Name", "test2@mail.com", "AG#WHY$JYISRHNESHNESHI#h93", true, group2);
+        GroupMember member3 = new GroupMember("Name Test", "test3@mail.com", "AG#WHY$JYISRHNESHNESHI#h93", false, group3);
+        Rating rating = new Rating(6, "You suck!", member, member2);
+        Rating rating2 = new Rating(7, "You suck!", member2, member);
+        Rating rating3 = new Rating(6, "You suck!", member3, member3);
 
         userRepo.save(user);
+        userRepo.save(user2);
         templateRepo.save(template);
-//        groupRepo.save(group);
-//        groupMemberRepo.save(member);
-//        ratingRepo.save(rating);
+        templateRepo.save(template2);
+        templateRepo.save(template3);
+        groupRepo.save(group);
+        groupRepo.save(group2);
+        groupRepo.save(group3);
+        groupMemberRepo.save(member);
+        groupMemberRepo.save(member2);
+        groupMemberRepo.save(member3);
+        ratingRepo.save(rating);
+        ratingRepo.save(rating2);
+        ratingRepo.save(rating3);
 
-        List<String> data = new ArrayList<String>();
-        for(User u : userRepo.findAll()){
-            data.add(u.toString());
+        return ResponseEntity.ok("Done");
+    }
+
+    /**
+     * TEST METHOD. Used to test database integration. SHOULD GET REMOVED.
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, path = "test")
+    public ResponseEntity<List<User>> retrieveUsers(){
+        List<User> data = new ArrayList<User>();
+        for(User r : userRepo.findAll()){
+            data.add((r));
         }
-        for(Template t : templateRepo.findAll()){
-            data.add((t.toString()));
-        }
-//        for(Group g : groupRepo.findAll()){
-//            data.add((g.toString()));
-//        }
-//        for(GroupMember gm : groupMemberRepo.findAll()){
-//            data.add((gm.toString()));
-//        }
-//        for(Rating r : ratingRepo.findAll()){
-//            data.add((r.toString()));
-//        }
 
         return ResponseEntity.ok(data);
     }

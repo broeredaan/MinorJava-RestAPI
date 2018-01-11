@@ -1,5 +1,7 @@
 package com.ajp.yourgrade.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,8 +18,9 @@ public class GroupMember {
     private String token;
     private boolean hasSubmitted;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "groupId")
+    @JoinColumn(name = "projectGroupId")
     private Group group;
 
     @OneToMany(mappedBy = "groupMember", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
