@@ -9,6 +9,5 @@ import java.util.List;
 public interface GroupRepository extends CrudRepository<Group, Long> {
 
     Group findById(int id);
-    List<Group> findByName(String name);
     List<Group> findByTemplate(Template template);
 }
