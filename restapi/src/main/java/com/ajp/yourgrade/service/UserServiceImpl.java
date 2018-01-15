@@ -2,9 +2,11 @@ package com.ajp.yourgrade.service;
 
 import com.ajp.yourgrade.model.User;
 import com.ajp.yourgrade.persistence.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
