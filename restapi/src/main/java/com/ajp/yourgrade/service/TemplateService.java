@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface TemplateService {
 
-
+    void addTemplate(String name, double gradeDeviation, boolean isCommentNeeded, User user);
+    void deleteTemplate(int id);
     Template getTemplateById(int id);
     List<Template> getTemplateByUser(User user);
 }

@@ -15,8 +15,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(String name, String email, boolean isAdmin, String password, String language) {
-        userRepository.save(new User(name,email,isAdmin,password,language));
+    public void addUser(String name, String email, boolean isAdmin, String password, String language) {
+        userRepository.save(new User(name, email, isAdmin, password, language));
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        userRepository.delete(userRepository.findById(id));
     }
 
     @Override

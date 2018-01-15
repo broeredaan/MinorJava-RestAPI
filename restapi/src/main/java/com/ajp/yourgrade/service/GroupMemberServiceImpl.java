@@ -17,9 +17,14 @@ public class GroupMemberServiceImpl implements GroupMemberService {
         this.groupMemberRepository = groupMemberRepository;
     }
 
+    @Override
+    public void createMember(String name, String email, String token, boolean hasSubmitted, Group group) {
+        groupMemberRepository.save(new GroupMember(name, email, token, hasSubmitted, group));
+    }
 
     @Override
-    public void createMember() {
+    public void deleteMember(int id) {
+        groupMemberRepository.delete(groupMemberRepository.findById(id));
 
     }
 
@@ -31,5 +36,10 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     @Override
     public GroupMember getMemberById(int id) {
         return groupMemberRepository.findById(id);
+    }
+
+    @Override
+    public GroupMember getMemberByToken(String token) {
+        return groupMemberRepository.findByToken(token);
     }
 }

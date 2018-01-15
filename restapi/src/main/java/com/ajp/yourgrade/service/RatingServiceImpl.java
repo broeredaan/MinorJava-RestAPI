@@ -17,6 +17,16 @@ public class RatingServiceImpl implements RatingService{
     }
 
     @Override
+    public void addRating(double grade, String comment, GroupMember groupMember, GroupMember ratedMember) {
+        ratingRepository.save(new Rating(grade,comment,groupMember,ratedMember));
+    }
+
+    @Override
+    public void deleteRating(int id) {
+        ratingRepository.delete(ratingRepository.findById(id));
+    }
+
+    @Override
     public Rating getById(int id) {
        return ratingRepository.findById(id);
     }
@@ -29,10 +39,5 @@ public class RatingServiceImpl implements RatingService{
     @Override
     public List<Rating> GetByRatedMember(GroupMember groupMember) {
         return ratingRepository.findByRatedMember(groupMember);
-    }
-
-    @Override
-    public Rating findById(int id) {
-        return null;
     }
 }

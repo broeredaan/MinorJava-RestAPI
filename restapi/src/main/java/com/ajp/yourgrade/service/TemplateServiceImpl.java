@@ -17,6 +17,16 @@ public class TemplateServiceImpl implements TemplateService{
     }
 
     @Override
+    public void addTemplate(String name, double gradeDeviation, boolean isCommentNeeded, User user) {
+        templateRepository.save(new Template(name,gradeDeviation,isCommentNeeded,user));
+    }
+
+    @Override
+    public void deleteTemplate(int id) {
+        templateRepository.delete(templateRepository.findById(id));
+    }
+
+    @Override
     public Template getTemplateById(int id) {
        return templateRepository.findById(id);
     }
