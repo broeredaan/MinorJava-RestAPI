@@ -36,7 +36,7 @@ public class Rating {
 
     @Override
     public String toString() {
-        return "Rating{" +
+        return "RatingService{" +
                 "id=" + id +
                 ", grade=" + grade +
                 ", comment='" + comment + '\'' +

@@ -9,6 +9,5 @@ import java.util.List;
 public interface TemplateRepository extends CrudRepository<Template, Long> {
 
     Template findById(int id);
-    List<Template> findByName(String name);
     List<Template> findByUser(User user);
 }

@@ -10,27 +10,38 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class GroupMemberServiceImpl implements GroupMemberService{
+public class GroupMemberServiceImpl implements GroupMemberService {
 
     private GroupMemberRepository groupMemberRepository;
 
-    public GroupMemberServiceImpl(GroupMemberRepository groupMemberRepository){
+    public GroupMemberServiceImpl(GroupMemberRepository groupMemberRepository) {
         this.groupMemberRepository = groupMemberRepository;
     }
 
+    @Override
+    public void createMember(String name, String email, String token, boolean hasSubmitted, Group group) {
+        groupMemberRepository.save(new GroupMember(name, email, token, hasSubmitted, group));
+    }
 
     @Override
-    public void createMember() {
+    public void deleteMember(int id) {
+        groupMemberRepository.delete(groupMemberRepository.findById(id));
 
     }
 
     @Override
     public List<GroupMember> getMembersByGroup(int id) {
         return groupMemberRepository.findByGroup(new Group("", new Date(), new Date(), 7, null));
+    public List<GroupMember> getMembersByGroup(Group group) {
     }
 
     @Override
     public GroupMember getMemberById(int id) {
-       return groupMemberRepository.findById(id);
+        return groupMemberRepository.findById(id);
+    }
+
+    @Override
+    public GroupMember getMemberByToken(String token) {
+        return groupMemberRepository.findByToken(token);
     }
 }
