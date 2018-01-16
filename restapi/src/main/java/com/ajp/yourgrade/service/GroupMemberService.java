@@ -12,7 +12,7 @@ public interface GroupMemberService {
 
     void deleteMember(int id);
 
-    List<GroupMember> getMembersByGroup(Group group);
+    List<GroupMember> getMembersByGroup(int id);
 
     GroupMember getMemberById(int id);
 

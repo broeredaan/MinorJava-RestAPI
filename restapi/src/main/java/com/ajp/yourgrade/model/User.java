@@ -17,8 +17,18 @@ public class User {
     private String password;
     private String language;
 
+    public Set<UserToken> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(Set<UserToken> tokens) {
+        this.tokens = tokens;
+    }
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Template> templates;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<UserToken> tokens;
 
     protected User(){}
 

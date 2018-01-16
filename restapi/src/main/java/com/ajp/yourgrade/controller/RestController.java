@@ -4,6 +4,7 @@ import com.ajp.yourgrade.model.*;
 import com.ajp.yourgrade.persistence.*;
 import com.ajp.yourgrade.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,21 +27,6 @@ public class RestController {
         this.userService = userService;
     }
 
-    /**
-     *
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.GET, path = "health")
-    public ResponseEntity<String> status() {
-        return ResponseEntity.ok("Operational");
-    }
-
-    @RequestMapping(path = "echo")
-    public ResponseEntity<String> echo(@RequestParam(value = "msg", required = false) String text) {
-        String value = (text != null ? text : "Dit is default tekst");
-        return ResponseEntity.ok("helleu");
-    }
-
     @RequestMapping(method = RequestMethod.GET, path = "user")
     public ResponseEntity<User> getUserById(@RequestParam(value = "id", required = true) int id) {
         User user = userService.getUserById(id);
@@ -48,13 +34,14 @@ public class RestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "user/login")
-    public ResponseEntity<Boolean> login(@RequestParam(value = "mail", required = true) String mail,
+    public ResponseEntity<Login> login(@RequestParam(value = "mail", required = true) String mail,
                                          @RequestParam(value = "password", required = true) String pass) {
         User user = userService.findByEmail(mail);
-        if(pass == user.getPassword()) {
-            return ResponseEntity.ok(true);
+        if(pass.equals(user.getPassword())) {
+            String token = userService.login(user.getId());
+            return ResponseEntity.ok(new Login(user.isAdmin(), token));
         } else {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 
@@ -64,7 +51,7 @@ public class RestController {
                                      @RequestParam(value = "isAdmin", required = true) boolean isAdmin,
                                      @RequestParam(value = "password", required = true) String pass,
                                      @RequestParam(value = "language", required = true) String language) {
-        userService.createUser(name, mail, isAdmin, pass, language);
+        userService.addUser(name, mail, isAdmin, pass, language);
         return ResponseEntity.ok(true);
     }
 }
