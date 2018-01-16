@@ -46,4 +46,25 @@ public class RestController {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "user/login")
+    public ResponseEntity<Boolean> login(@RequestParam(value = "mail", required = true) String mail,
+                                         @RequestParam(value = "password", required = true) String pass) {
+        User user = userService.findByEmail(mail);
+        if(pass == user.getPassword()) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.ok(false);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "user/create")
+    public ResponseEntity<Boolean> createUser(@RequestParam(value = "name", required = true) String name,
+                                     @RequestParam(value = "mail", required = true) String mail,
+                                     @RequestParam(value = "isAdmin", required = true) boolean isAdmin,
+                                     @RequestParam(value = "password", required = true) String pass,
+                                     @RequestParam(value = "language", required = true) String language) {
+        userService.createUser(name, mail, isAdmin, pass, language);
+        return ResponseEntity.ok(true);
+    }
 }
