@@ -23,6 +23,7 @@ public class GroupMember {
     @JoinColumn(name = "projectGroupId")
     private Group group;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "groupMember", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Rating> ratings;
 

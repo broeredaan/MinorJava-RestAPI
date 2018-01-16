@@ -25,6 +25,7 @@ public class Group {
     @JoinColumn(name = "templateId")
     private Template template;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<GroupMember> groupMembers;
 

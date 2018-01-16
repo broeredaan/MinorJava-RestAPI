@@ -12,4 +12,5 @@ public interface UserService {
     User findByEmail(String email);
     String login(int id);
     User getUserByToken(String token);
+    boolean isLastUserToken(String token);
 }

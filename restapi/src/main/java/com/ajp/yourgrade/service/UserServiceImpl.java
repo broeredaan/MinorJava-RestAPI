@@ -6,9 +6,7 @@ import com.ajp.yourgrade.persistence.UserRepository;
 import com.ajp.yourgrade.persistence.UserTokenRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -52,6 +50,23 @@ public class UserServiceImpl implements UserService {
     public User getUserByToken(String token) {
         UserToken userToken = userTokenRepository.findByToken(token);
         return userToken.getUser();
+    }
+
+    @Override
+    public boolean isLastUserToken(String token) {
+        UserToken userToken = userTokenRepository.findByToken(token);
+        User user = userToken.getUser();
+
+        Comparator<UserToken> cmp = new Comparator<UserToken>() {
+            @Override
+            public int compare(UserToken o1, UserToken o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        };
+
+        UserToken lastToken = Collections.max(user.getTokens(), cmp);
+
+        return lastToken.getToken().equals(token);
     }
 }
 

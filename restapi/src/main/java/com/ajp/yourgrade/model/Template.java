@@ -22,6 +22,7 @@ public class Template {
     @JoinColumn(name = "userId")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Group> groups;
 
