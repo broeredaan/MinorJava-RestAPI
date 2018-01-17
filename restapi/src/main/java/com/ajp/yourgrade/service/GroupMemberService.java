@@ -17,4 +17,6 @@ public interface GroupMemberService {
     GroupMember getMemberById(int id);
 
     GroupMember getMemberByToken(String token);
+
+    void saveMember(GroupMember member);
 }

@@ -20,7 +20,6 @@ public class Rating {
     @JoinColumn(name = "groupMemberId")
     private GroupMember groupMember;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ratedMemberId")
     private GroupMember ratedMember;

@@ -99,4 +99,12 @@ public class Group {
     public void setTemplate(Template template) {
         this.template = template;
     }
+
+    public Set<GroupMember> getGroupMembers() {
+        return groupMembers;
+    }
+
+    public void setGroupMembers(Set<GroupMember> groupMembers) {
+        this.groupMembers = groupMembers;
+    }
 }

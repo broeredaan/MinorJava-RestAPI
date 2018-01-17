@@ -11,4 +11,5 @@ public interface RatingService {
     Rating getById(int id);
     List<Rating> getByGroupMember(GroupMember groupmember);
     List<Rating> GetByRatedMember(GroupMember groupMember);
+    void saveRating(Rating rating);
 }

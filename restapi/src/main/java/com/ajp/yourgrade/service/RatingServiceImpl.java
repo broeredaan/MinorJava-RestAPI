@@ -40,4 +40,9 @@ public class RatingServiceImpl implements RatingService{
     public List<Rating> GetByRatedMember(GroupMember groupMember) {
         return ratingRepository.findByRatedMember(groupMember);
     }
+
+    @Override
+    public void saveRating(Rating rating) {
+        ratingRepository.save(rating);
+    }
 }

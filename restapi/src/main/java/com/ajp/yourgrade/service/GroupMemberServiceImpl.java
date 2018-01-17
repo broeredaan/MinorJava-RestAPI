@@ -47,4 +47,9 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     public GroupMember getMemberByToken(String token) {
         return groupMemberRepository.findByToken(token);
     }
+
+    @Override
+    public void saveMember(GroupMember member) {
+        groupMemberRepository.save(member);
+    }
 }
