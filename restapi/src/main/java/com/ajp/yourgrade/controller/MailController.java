@@ -1,7 +1,7 @@
 package com.ajp.yourgrade.controller;
 
 import com.ajp.yourgrade.model.MailObject;
-import com.ajp.yourgrade.service.MailServiceImpl;
+import com.ajp.yourgrade.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
 public class MailController {
 
     @Autowired
-    public MailServiceImpl mailService;
+    public MailService mailService;
 
     @RequestMapping(path = "send")
     public ResponseEntity<String> createMail(@ModelAttribute("mailObject") @Valid MailObject mailObject, Errors errors) {
