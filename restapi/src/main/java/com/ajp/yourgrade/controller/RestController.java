@@ -80,7 +80,7 @@ public class RestController {
 
     @RequestMapping(method = RequestMethod.GET, path = "template/single")
     public ResponseEntity<Template> getTemplate(@RequestParam(value = "userToken") String token,
-                                                          @RequestParam(value = "id") int id) {
+                                                  @RequestParam(value = "id") int id) {
         if(!userService.isLastUserToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
@@ -170,13 +170,12 @@ public class RestController {
     public ResponseEntity<Boolean> createGroupMember(@RequestParam(value = "userToken") String userToken,
                                                      @RequestParam(value = "groupId") int groupId,
                                                      @RequestParam(value = "name") String name,
-                                                     @RequestParam(value = "email") String email,
-                                                     @RequestParam(value = "token") String token) {
+                                                     @RequestParam(value = "email") String email) {
         if(!userService.isLastUserToken(userToken)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        groupMemberService.createMember(name, email, token, false, groupService.getById(groupId));
+        groupMemberService.createMember(name, email, "", false, groupService.getById(groupId));
 
         return ResponseEntity.ok(true);
     }
