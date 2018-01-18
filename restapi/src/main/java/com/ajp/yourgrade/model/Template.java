@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "template")
+@Table(name = "Template")
 public class Template {
 
     @Id

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "userToken")
+@Table(name = "UserToken")
 public class UserToken {
 
     @Id

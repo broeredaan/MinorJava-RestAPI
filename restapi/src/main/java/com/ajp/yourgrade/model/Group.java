@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "projectGroup")
+@Table(name = "ProjectGroup")
 public class Group {
 
     @Id
