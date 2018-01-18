@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GroupService {
 
-    void addGroup(String name, Date creationDate, Date deadline, double groupGrade, Template template);
+    int addGroup(String name, Date creationDate, Date deadline, double groupGrade, Template template);
     void deleteGroup(int id);
     Group getById(int id);
     List<Group> getByTemplate(Template template);
