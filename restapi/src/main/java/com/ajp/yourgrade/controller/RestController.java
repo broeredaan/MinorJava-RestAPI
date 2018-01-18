@@ -144,38 +144,25 @@ public class RestController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "group/create")
-    public ResponseEntity<Boolean> createGroup(@RequestParam(value = "userToken") String token,
-                                               @RequestParam(value = "templateId") int templateId,
-                                               @RequestParam(value = "name") String name,
-                                               @RequestParam(value = "deadline") String deadline,
-                                               @RequestParam(value = "groupGrade") double groupGrade) {
-        if(!userService.isLastUserToken(token)) {
+    public ResponseEntity<Boolean> createGroup(@RequestBody GroupBody body) {
+        if(!userService.isLastUserToken(body.getToken())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
         try {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date deadlineDate = format.parse(deadline);
+            Date deadlineDate = format.parse(body.getDeadline());
 
-            Template template = templateService.getTemplateById(templateId);
-            groupService.addGroup(name, new Date(), deadlineDate, groupGrade, template);
+            Template template = templateService.getTemplateById(body.getTemplateId());
+            int groupId = groupService.addGroup(body.getName(), new Date(), deadlineDate, body.getGroupGrade(), template);
+
+            for (GroupMemberBody member : body.getMembers()) {
+                groupMemberService.createMember(member.getName(), member.getEmail(), "",
+                        false, groupService.getById(groupId));
+            }
         } catch (ParseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-
-        return ResponseEntity.ok(true);
-    }
-
-    @RequestMapping(method = RequestMethod.PUT, path = "group/addmember")
-    public ResponseEntity<Boolean> createGroupMember(@RequestParam(value = "userToken") String userToken,
-                                                     @RequestParam(value = "groupId") int groupId,
-                                                     @RequestParam(value = "name") String name,
-                                                     @RequestParam(value = "email") String email) {
-        if(!userService.isLastUserToken(userToken)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-
-        groupMemberService.createMember(name, email, "", false, groupService.getById(groupId));
 
         return ResponseEntity.ok(true);
     }

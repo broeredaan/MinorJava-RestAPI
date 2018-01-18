@@ -18,8 +18,9 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void addGroup(String name, Date creationDate, Date deadline, double groupGrade, Template template) {
-        groupRepository.save(new Group(name, creationDate,deadline,groupGrade,template));
+    public int addGroup(String name, Date creationDate, Date deadline, double groupGrade, Template template) {
+        Group group = groupRepository.save(new Group(name, creationDate,deadline,groupGrade,template));
+        return group.getId();
     }
 
     @Override
