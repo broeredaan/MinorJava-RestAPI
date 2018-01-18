@@ -19,4 +19,6 @@ public interface GroupMemberService {
     GroupMember getMemberByToken(String token);
 
     void saveMember(GroupMember member);
+
+    String getTokenByEmail(String email);
 }

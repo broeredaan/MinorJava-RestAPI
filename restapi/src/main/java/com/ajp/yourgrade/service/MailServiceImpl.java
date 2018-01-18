@@ -1,7 +1,7 @@
 package com.ajp.yourgrade.service;
 
 
-import com.ajp.yourgrade.model.MailTemplate;
+//import com.ajp.yourgrade.model.MailTemplate;
 import com.ajp.yourgrade.properties.ConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,24 +24,15 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private ConfigProperties configProperties;
 
-    public void sendRequest(String to, String name) {
+    public void sendRequest(String to, String name, String token, String link, String fromName) {
         try {
-
-            //Prepare message template
-            MailTemplate template = new MailTemplate();
-
-            //For testing fill the template (wil be retrieved from database)
-            template.setSubject("Rating request");
-            template.setToken("<b>RANDOM</b>");
-            template.setLink(configProperties.getSurveyLink());
-            template.setFromName("Grade Systems");
 
             String htmlMessage = "Dear " + name
                     + ",<br/><br/>You have been asked to rate your group.<br/>"
-                    + "Please use this token:<br/><br/>" + template.getToken()
-                    + "<br/><br/>Go to <a href='" + template.getLink() + "'a>the rating page</a> to complete your rating."
+                    + "Please use this token:<br/><br/>" + token
+                    + "<br/><br/>Go to <a href='" + link + "'a>the rating page</a> to complete your rating."
                     + "<br/><br/>Kind regards,<br/><br/>"
-                    + template.getFromName();
+                    + fromName;
 
             MimeMessage msg = emailSender.createMimeMessage();
             msg.setContent(htmlMessage, "text/html");

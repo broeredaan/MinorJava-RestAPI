@@ -9,6 +9,7 @@ public class MailObject {
     @NotNull
     private String to;
     private String name;
+    private String userToken;
 
     public String getTo() {
         return to;
@@ -24,5 +25,13 @@ public class MailObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 }
