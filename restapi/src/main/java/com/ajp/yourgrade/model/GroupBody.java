@@ -12,6 +12,9 @@ public class GroupBody {
     private double groupGrade;
     private List<GroupMemberBody> members;
 
+    public GroupBody() {
+    }
+
     public GroupBody(String token, int templateId, String name, String deadline, double groupGrade, List<GroupMemberBody> members) {
         this.token = token;
         this.templateId = templateId;

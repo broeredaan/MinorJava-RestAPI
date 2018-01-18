@@ -10,6 +10,9 @@ public class GroupMemberBody {
         this.name = name;
     }
 
+    public GroupMemberBody() {
+    }
+
     public String getEmail() {
         return email;
     }
