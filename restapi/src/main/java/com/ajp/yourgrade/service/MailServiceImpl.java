@@ -24,19 +24,6 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private ConfigProperties configProperties;
 
-    public void sendSimpleMessage(String to, String subject, String text) {
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(to);
-            message.setSubject(subject);
-            message.setText(text);
-            emailSender.send(message);
-        } catch (MailException exception) {
-            exception.printStackTrace();
-        }
-
-    }
-
     public void sendRequest(String to, String name) {
         try {
 
@@ -46,7 +33,6 @@ public class MailServiceImpl implements MailService {
             //For testing fill the template (wil be retrieved from database)
             template.setSubject("Rating request");
             template.setToken("<b>RANDOM</b>");
-//            template.setLink("https://google.com");
             template.setLink(configProperties.getSurveyLink());
             template.setFromName("Grade Systems");
 
