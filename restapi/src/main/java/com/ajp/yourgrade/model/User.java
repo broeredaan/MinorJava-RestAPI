@@ -1,5 +1,7 @@
 package com.ajp.yourgrade.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -17,17 +19,11 @@ public class User {
     private String password;
     private String language;
 
-    public Set<UserToken> getTokens() {
-        return tokens;
-    }
-
-    public void setTokens(Set<UserToken> tokens) {
-        this.tokens = tokens;
-    }
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Template> templates;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<UserToken> tokens;
 
     protected User(){}
@@ -106,5 +102,13 @@ public class User {
 
     public void setTemplates(Set<Template> template) {
         this.templates = template;
+    }
+
+    public Set<UserToken> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(Set<UserToken> tokens) {
+        this.tokens = tokens;
     }
 }
