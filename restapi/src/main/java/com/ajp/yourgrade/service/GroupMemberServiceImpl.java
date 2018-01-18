@@ -52,4 +52,7 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     public void saveMember(GroupMember member) {
         groupMemberRepository.save(member);
     }
+
+    @Override
+    public String getTokenByEmail(String email) {return groupMemberRepository.findByEmail(email).getToken();}
 }

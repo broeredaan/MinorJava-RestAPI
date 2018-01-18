@@ -1,15 +1,15 @@
 package com.ajp.yourgrade.controller;
 
 import com.ajp.yourgrade.model.*;
+import com.ajp.yourgrade.properties.ConfigProperties;
 import com.ajp.yourgrade.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -213,6 +213,28 @@ public class RestController {
         }
 
         return ResponseEntity.ok(true);
+    }
+
+    @Autowired
+    public MailService mailService;
+
+    @Autowired
+    private ConfigProperties configProperties;
+
+    @RequestMapping(path = "mail/sendRequest")
+    public ResponseEntity<String> createRequest(@ModelAttribute("mailObject") @Valid MailObject mailObject, Errors errors) {
+
+        if(!userService.isLastUserToken(mailObject.getUserToken())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        //Error handling
+        if(errors.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        mailService.sendRequest(mailObject.getTo(), mailObject.getName(), groupMemberService.getTokenByEmail(mailObject.getTo()), configProperties.getSurveyLink(), userService.getUserByToken(mailObject.getUserToken()).getName());
+        return ResponseEntity.ok("Success");
     }
 
 }
