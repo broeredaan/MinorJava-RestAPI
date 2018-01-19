@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public interface GroupMemberService {
-    void createMember(String name, String email, String token, boolean hasSubmitted, Group group);
+    void createMember(String name, String email, boolean hasSubmitted, Group group);
 
     void deleteMember(int id);
 

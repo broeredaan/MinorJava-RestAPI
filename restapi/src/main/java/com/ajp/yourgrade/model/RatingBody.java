@@ -6,7 +6,9 @@ public class RatingBody {
     private double grade;
     private String comment;
 
+    //Dummy constructor
     public RatingBody() {
+
     }
 
     public RatingBody(String token, int ratedMemberId, double grade, String comment) {

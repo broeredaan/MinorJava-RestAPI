@@ -59,12 +59,8 @@ public class RestController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "user/create")
-    public ResponseEntity<Boolean> createUser(@RequestParam(value = "name") String name,
-                                     @RequestParam(value = "mail") String mail,
-                                     @RequestParam(value = "isAdmin") boolean isAdmin,
-                                     @RequestParam(value = "password") String pass,
-                                     @RequestParam(value = "language") String language) {
-        userService.addUser(name, mail, isAdmin, pass, language);
+    public ResponseEntity<Boolean> createUser(@RequestBody UserBody body) {
+        userService.addUser(body.getName(), body.getEmail(), body.getIsAdmin(), body.getPassword(), body.getLanguage());
         return ResponseEntity.ok(true);
     }
 
@@ -89,16 +85,13 @@ public class RestController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "template/create")
-    public ResponseEntity<Boolean> createTemplate(@RequestParam(value = "userToken") String token,
-                                                  @RequestParam(value = "name") String name,
-                                                  @RequestParam(value = "gradeDeviation") double gradeDeviation,
-                                                  @RequestParam(value = "isCommentNeeded") boolean isCommentNeeded) {
-        if(!userService.isLastUserToken(token)) {
+    public ResponseEntity<Boolean> createTemplate(@RequestBody TemplateBody body) {
+        if(!userService.isLastUserToken(body.getUserToken())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        User user = userService.getUserByToken(token);
-        templateService.addTemplate(name, gradeDeviation, isCommentNeeded, user);
+        User user = userService.getUserByToken(body.getUserToken());
+        templateService.addTemplate(body.getName(), body.getGradeDeviation(), body.getIsCommentNeeded(), user);
 
         return ResponseEntity.ok(true);
     }
@@ -157,7 +150,7 @@ public class RestController {
             int groupId = groupService.addGroup(body.getName(), new Date(), deadlineDate, body.getGroupGrade(), template);
 
             for (GroupMemberBody member : body.getMembers()) {
-                groupMemberService.createMember(member.getName(), member.getEmail(), "",
+                groupMemberService.createMember(member.getName(), member.getEmail(),
                         false, groupService.getById(groupId));
             }
         } catch (ParseException e) {
@@ -222,9 +215,9 @@ public class RestController {
     private ConfigProperties configProperties;
 
     @RequestMapping(path = "mail/sendRequest")
-    public ResponseEntity<String> createRequest(@ModelAttribute("mailObject") @Valid MailObject mailObject, Errors errors) {
+    public ResponseEntity<Boolean> createRequest(@RequestBody MailBody body, Errors errors) {
 
-        if(!userService.isLastUserToken(mailObject.getUserToken())) {
+        if(!userService.isLastUserToken(body.getUserToken())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
@@ -233,8 +226,8 @@ public class RestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        mailService.sendRequest(mailObject.getTo(), mailObject.getName(), groupMemberService.getTokenByEmail(mailObject.getTo()), configProperties.getSurveyLink(), userService.getUserByToken(mailObject.getUserToken()).getName());
-        return ResponseEntity.ok("Success");
+        mailService.sendRequest(body.getEmail(), body.getName(), groupMemberService.getTokenByEmail(body.getEmail()), configProperties.getSurveyLink(), userService.getUserByToken(body.getUserToken()).getName());
+        return ResponseEntity.ok(true);
     }
 
 }

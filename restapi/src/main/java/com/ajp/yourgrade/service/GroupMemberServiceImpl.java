@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class GroupMemberServiceImpl implements GroupMemberService {
@@ -19,8 +20,9 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     }
 
     @Override
-    public void createMember(String name, String email, String token, boolean hasSubmitted, Group group) {
-        groupMemberRepository.save(new GroupMember(name, email, token, hasSubmitted, group));
+    public void createMember(String name, String email, boolean hasSubmitted, Group group) {
+
+        groupMemberRepository.save(new GroupMember(name, email, generateUuid(), hasSubmitted, group));
     }
 
     @Override
@@ -55,4 +57,12 @@ public class GroupMemberServiceImpl implements GroupMemberService {
 
     @Override
     public String getTokenByEmail(String email) {return groupMemberRepository.findByEmail(email).getToken();}
+
+    private String generateUuid() {
+
+        UUID uuid = UUID.randomUUID();
+        String tokenString = uuid.toString();
+
+        return tokenString;
+    }
 }
