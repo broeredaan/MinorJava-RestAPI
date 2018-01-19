@@ -22,11 +22,11 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public User getUserById() throws Exception {
+    public void getUserById() throws Exception {
     }
 
     @Test
-    public User findByEmail() throws Exception {
+    public void findByEmail() throws Exception {
     }
 
     @Deployment

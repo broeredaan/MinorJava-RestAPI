@@ -24,15 +24,15 @@ public class RatingServiceImplTest {
     }
 
     @Test
-    public Rating getById() throws Exception {
+    public void getById() throws Exception {
     }
 
     @Test
-    public List<Rating> getByGroupMember() throws Exception {
+    public void getByGroupMember() throws Exception {
     }
 
     @Test
-    public List<Rating> getByRatedMember() throws Exception {
+    public void getByRatedMember() throws Exception {
     }
 
     @Deployment

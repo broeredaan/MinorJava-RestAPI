@@ -24,11 +24,11 @@ public class TemplateServiceImplTest {
     }
 
     @Test
-    public Template getTemplateById() throws Exception {
+    public void getTemplateById() throws Exception {
     }
 
     @Test
-    public List<Template> getTemplateByUser() throws Exception {
+    public void getTemplateByUser() throws Exception {
     }
 
     @Deployment
