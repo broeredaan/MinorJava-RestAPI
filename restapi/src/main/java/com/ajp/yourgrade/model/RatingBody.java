@@ -1,21 +1,18 @@
 package com.ajp.yourgrade.model;
 
+import java.util.List;
+
 public class RatingBody {
     private String token;
-    private int ratedMemberId;
-    private double grade;
-    private String comment;
+    private List<Rating> ratings;
 
     //Dummy constructor
     public RatingBody() {
-
     }
 
-    public RatingBody(String token, int ratedMemberId, double grade, String comment) {
+    public RatingBody(String token, List<Rating> ratings) {
         this.token = token;
-        this.ratedMemberId = ratedMemberId;
-        this.grade = grade;
-        this.comment = comment;
+        this.ratings = ratings;
     }
 
     public String getToken() {
@@ -26,27 +23,11 @@ public class RatingBody {
         this.token = token;
     }
 
-    public int getRatedMemberId() {
-        return ratedMemberId;
+    public List<Rating> getRatings() {
+        return ratings;
     }
 
-    public void setRatedMemberId(int ratedMemberId) {
-        this.ratedMemberId = ratedMemberId;
-    }
-
-    public double getGrade() {
-        return grade;
-    }
-
-    public void setGrade(double grade) {
-        this.grade = grade;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
     }
 }

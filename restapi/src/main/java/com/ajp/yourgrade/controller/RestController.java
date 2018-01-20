@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
@@ -209,6 +211,7 @@ public class RestController {
         //Retrieve the appropriate group information
         Group group = ratingMember.getGroup();
 
+
         //Retrieve the template that belongs to the group
         Template template = group.getTemplate();
 
@@ -233,30 +236,67 @@ public class RestController {
         }
 
         //Prepare data
-        RatingInfo ratingInfo = new RatingInfo(group.getGroupGrade(), template.isCommentNeeded(), template.getGradeDeviation(), ratingMember.getRatings());
+        RatingInfo ratingInfo = new RatingInfo(group.getGroupGrade(), template.isCommentNeeded(), template.getGradeDeviation(), ratingService.getByGroupMember(ratingMember));
 
         //Return the rating data
         return ResponseEntity.ok(ratingInfo);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "rate/finish")
-    public ResponseEntity<Boolean> rateMembers(@RequestBody List<RatingBody> body) {
-        for (RatingBody item : body) {
-            GroupMember member = groupMemberService.getMemberByToken(item.getToken());
-            List<Rating> ratings = ratingService.getByGroupMember(member);
+    public ResponseEntity<Boolean> rateMembers(@RequestBody RatingBody body) {
 
-            if (!member.isHasSubmitted()) {
-                member.setHasSubmitted(true);
-                groupMemberService.saveMember(member);
-            }
+        //Get the member who is rating
+        GroupMember ratingMember = groupMemberService.getMemberByToken(body.getToken());
 
-            for (Rating rating : ratings) {
-                if (rating.getRatedMember().getId() == item.getRatedMemberId()) {
-                    rating.setGrade(item.getGrade());
-                    rating.setComment(item.getComment());
-                    ratingService.saveRating(rating);
+        //Stop here in case of already submitted
+        if(ratingMember.isHasSubmitted() == true) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        //Get the to be updated list of ratings
+        List<Rating> toBeUpdated = ratingService.getByGroupMember(ratingMember);
+
+        //Get the list of ratings
+        List<Rating> ratings = body.getRatings();
+
+        //Update the data
+        for(Rating toBeUpdatedRating : toBeUpdated) {
+
+            for(Rating rating : ratings) {
+
+                if(toBeUpdatedRating.getId() == rating.getId()) {
+                    toBeUpdatedRating.setComment(rating.getComment());
+                    toBeUpdatedRating.setGrade(rating.getGrade());
+                    ratingService.saveRating(toBeUpdatedRating);
                 }
+
             }
+
+        }
+
+//        for (RatingBody item : body) {
+//
+//            GroupMember member = groupMemberService.getMemberByToken(item.getToken());
+//            List<Rating> ratings = ratingService.getByGroupMember(member);
+//
+//            if (!member.isHasSubmitted()) {
+//                member.setHasSubmitted(true);
+//                groupMemberService.saveMember(member);
+//            }
+//
+//            for (Rating rating : ratings) {
+//                if (rating.getRatedMember().getId() == item.getRatedMemberId()) {
+//                    rating.setGrade(item.getGrade());
+//                    rating.setComment(item.getComment());
+//                    ratingService.saveRating(rating);
+//                }
+//            }
+//        }
+
+        //Update the member status to submitted
+        if(!ratingMember.isHasSubmitted()) {
+            ratingMember.setHasSubmitted(true);
+            groupMemberService.saveMember(ratingMember);
         }
 
         return ResponseEntity.ok(true);
