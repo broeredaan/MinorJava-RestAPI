@@ -21,4 +21,6 @@ public interface GroupMemberService {
     void saveMember(GroupMember member);
 
     String getTokenByEmail(String email);
+
+    void setFinalGrade(GroupMember groupMember, double finalGrade);
 }

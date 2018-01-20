@@ -13,4 +13,5 @@ public interface GroupService {
     void deleteGroup(int id);
     Group getById(int id);
     List<Group> getByTemplate(Template template);
+    void setApproved(boolean isApproved, int id);
 }

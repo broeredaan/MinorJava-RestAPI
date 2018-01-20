@@ -19,6 +19,7 @@ public class Group {
     private Date creationDate;
     private Date deadline;
     private double groupGrade;
+    private boolean isApproved;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
@@ -87,6 +88,10 @@ public class Group {
     public double getGroupGrade() {
         return groupGrade;
     }
+
+    public void setApproved(boolean isApproved){ this.isApproved = isApproved;}
+
+    public boolean  getApproved(){ return isApproved;}
 
     public void setGroupGrade(double groupGrade) {
         this.groupGrade = groupGrade;

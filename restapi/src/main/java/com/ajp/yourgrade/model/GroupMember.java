@@ -25,6 +25,7 @@ public class GroupMember {
     private String email;
     private String token;
     private boolean hasSubmitted;
+    private double finalGrade;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
@@ -93,6 +94,12 @@ public class GroupMember {
     public boolean isHasSubmitted() {
         return hasSubmitted;
     }
+
+    public void setFinalGrade(double finalGrade) {
+        this.finalGrade = finalGrade;
+    }
+
+    public double getFinalGrade(){ return finalGrade;}
 
     public void setHasSubmitted(boolean hasSubmitted) {
         this.hasSubmitted = hasSubmitted;

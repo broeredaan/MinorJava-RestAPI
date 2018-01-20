@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class GroupMemberServiceImpl implements GroupMemberService {
+public  class GroupMemberServiceImpl implements GroupMemberService {
 
     private GroupMemberRepository groupMemberRepository;
 
@@ -58,11 +58,15 @@ public class GroupMemberServiceImpl implements GroupMemberService {
     @Override
     public String getTokenByEmail(String email) {return groupMemberRepository.findByEmail(email).getToken();}
 
-    private String generateUuid() {
+    @Override
+    public void setFinalGrade(GroupMember groupMember, double finalGrade) {
+        groupMember.setFinalGrade(finalGrade);
+        groupMemberRepository.save(groupMember);
+    }
 
+    private String generateUuid() {
         UUID uuid = UUID.randomUUID();
         String tokenString = uuid.toString();
-
         return tokenString;
     }
 }
