@@ -1,8 +1,12 @@
 package com.ajp.yourgrade.controller;
 
+import com.ajp.yourgrade.View;
 import com.ajp.yourgrade.model.*;
 import com.ajp.yourgrade.properties.ConfigProperties;
 import com.ajp.yourgrade.service.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -160,15 +164,25 @@ public class RestController {
         return ResponseEntity.ok(true);
     }
 
+    @JsonView(View.Public.class)
     @RequestMapping(method = RequestMethod.GET, path = "rate/start")
-    public ResponseEntity<List<Rating>> startRateMembers(@RequestParam(value = "token") String token) {
+    public ResponseEntity<RatingInfo> startRateMembers(@RequestParam(value = "token") String token) {
+
+        //Retrieve member info, who is going to submit
         GroupMember ratingMember = groupMemberService.getMemberByToken(token);
+
+        //Retrieve the appropriate group information
         Group group = ratingMember.getGroup();
 
+        //Retrieve the template that belongs to the group
+        Template template = group.getTemplate();
+
+        //Already submitted, prevent access
         if(ratingMember.isHasSubmitted()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
+        //Check if a rating already exists
         for (GroupMember member : group.getGroupMembers()) {
             boolean ratingExists = false;
             for (Rating rating : ratingService.getByGroupMember(ratingMember)) {
@@ -177,12 +191,17 @@ public class RestController {
                 }
             }
 
+            //if not, fill in defaults for initial use
             if(!ratingExists) {
                 ratingService.addRating(group.getGroupGrade(), "", ratingMember, member);
             }
         }
 
-        return ResponseEntity.ok(ratingService.getByGroupMember(ratingMember));
+        //Prepare data
+        RatingInfo ratingInfo = new RatingInfo(group.getGroupGrade(), template.isCommentNeeded(), template.getGradeDeviation(), ratingMember.getRatings());
+
+        //Return the rating data
+        return ResponseEntity.ok(ratingInfo);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "rate/finish")

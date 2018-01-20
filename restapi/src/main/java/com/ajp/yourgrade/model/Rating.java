@@ -1,6 +1,8 @@
 package com.ajp.yourgrade.model;
 
+import com.ajp.yourgrade.View;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 
@@ -11,8 +13,14 @@ public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ratingId")
+
+    @JsonView(View.Public.class)
     private int id;
+
+    @JsonView(View.Public.class)
     private double grade;
+
+    @JsonView(View.Public.class)
     private String comment;
 
     @JsonIgnore
@@ -22,6 +30,7 @@ public class Rating {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ratedMemberId")
+    @JsonView(View.Public.class)
     private GroupMember ratedMember;
 
     protected Rating(){}

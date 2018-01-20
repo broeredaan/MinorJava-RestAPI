@@ -1,6 +1,9 @@
 package com.ajp.yourgrade.model;
 
+import com.ajp.yourgrade.View;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,8 +15,13 @@ public class GroupMember {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "groupMemberId")
+
+    @JsonView(View.Public.class)
     private int id;
+
+    @JsonView(View.Public.class)
     private String name;
+
     private String email;
     private String token;
     private boolean hasSubmitted;
