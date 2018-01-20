@@ -24,9 +24,9 @@ public class PdfServiceImpl implements PdfService {
         pdf.saveFile(group.getId());
     }
 
-    @Override
-    public void createDirectory(Group group) {
-        new File(String.valueOf(group.getId())).mkdir();
-    }
+//    @Override
+//    public void createDirectory(Group group) {
+//        new File(String.valueOf(group.getId())).mkdir();
+//    }
 
 }

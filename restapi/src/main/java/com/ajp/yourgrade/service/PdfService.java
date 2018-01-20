@@ -8,5 +8,5 @@ import java.io.IOException;
 public interface PdfService {
 //    double calculateGrade(GroupMember groupMember);
     void print(Group group) throws IOException;
-    void createDirectory(Group group);
+//    void createDirectory(Group group);
 }

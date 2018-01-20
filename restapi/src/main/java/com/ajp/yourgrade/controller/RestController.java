@@ -5,12 +5,18 @@ import com.ajp.yourgrade.properties.ConfigProperties;
 import com.ajp.yourgrade.service.*;
 import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -171,6 +177,17 @@ public class RestController {
         approveService.createPdf(id);
 
         return ResponseEntity.ok(true);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "group/pdf")
+    public   ResponseEntity<InputStreamResource> getPdf(@RequestParam(value = "id") int id) throws IOException {
+        File file = new File("download/" + id + ".pdf");
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.setContentType(MediaType.valueOf("application/pdf"));
+        respHeaders.setContentDispositionFormData("attachment", id + ".pdf");
+        InputStreamResource isr = new InputStreamResource(new FileInputStream(file));
+        return new ResponseEntity<InputStreamResource>(isr, respHeaders, HttpStatus.OK);
+
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "rate/start")

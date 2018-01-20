@@ -47,7 +47,7 @@ public class ApproveServiceImpl implements ApproveService {
 
     @Override
     public void createPdf(int groupId) throws IOException {
-        pdfService.createDirectory(groupService.getById(groupId));
+//        pdfService.createDirectory(groupService.getById(groupId));
         pdfService.print(groupService.getById(groupId));
     }
 

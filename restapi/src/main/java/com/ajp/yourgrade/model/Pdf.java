@@ -37,6 +37,6 @@ public class Pdf {
 
     public void saveFile(int groupId) throws IOException {
         contentStream.close();
-        document.save(groupId + "/" + groupId + ".pdf");
+        document.save( "download/" + groupId + ".pdf");
     }
 }
