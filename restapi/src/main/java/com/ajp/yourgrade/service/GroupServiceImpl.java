@@ -37,4 +37,11 @@ public class GroupServiceImpl implements GroupService {
     public List<Group> getByTemplate(Template template) {
         return  groupRepository.findByTemplate(template);
     }
+
+    @Override
+    public void setApproved(boolean isApproved, int id) {
+        Group group = getById(id);
+        group.setApproved(isApproved);
+        groupRepository.save(group);
+    }
 }

@@ -22,3 +22,4 @@ Spring boot start application (HS-Stenden)
 | group/addmember | PUT	| userToken, groupId, name, email, token | Adds a new member to a group |
 | rate/start | GET | token | Returns all rating info |
 | rate/finish |	POST	 | To be continued... |
+| approve |	PUt	 | group id | Approves selected group and creates PDF |
