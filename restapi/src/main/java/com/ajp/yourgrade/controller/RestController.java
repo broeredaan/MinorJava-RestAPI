@@ -197,6 +197,23 @@ public class RestController {
         return ResponseEntity.ok(true);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, path = "group/delete")
+    public ResponseEntity<Boolean> deleteGroup(@RequestParam(value = "userToken") String token,
+                                               @RequestParam(value = "groupId") int id) {
+        if (!userService.isLastUserToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        Group group = groupService.getById(id);
+        if(group.getTemplate().getUser().getId() != userService.getUserByToken(token).getId()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        groupService.deleteGroup(id);
+
+        return ResponseEntity.ok(true);
+    }
+
 
 
 

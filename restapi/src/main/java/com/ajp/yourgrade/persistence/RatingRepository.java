@@ -11,4 +11,5 @@ public interface RatingRepository extends CrudRepository<Rating, Long> {
     Rating findById(int id);
     List<Rating> findByGroupMember(GroupMember groupMember);
     List<Rating> findByRatedMember(GroupMember groupMember);
+    void deleteById(int id);
 }

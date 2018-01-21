@@ -23,7 +23,7 @@ public class Template {
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "template", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "template", fetch = FetchType.EAGER)
     private Set<Group> groups;
 
     protected Template(){}

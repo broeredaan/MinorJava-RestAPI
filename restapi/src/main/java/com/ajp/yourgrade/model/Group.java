@@ -27,7 +27,7 @@ public class Group {
     private Template template;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "group", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
     private Set<GroupMember> groupMembers;
 
     protected Group(){}

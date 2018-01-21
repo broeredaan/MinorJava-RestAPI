@@ -20,10 +20,10 @@ public class User {
     private String language;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Template> templates;
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserToken> tokens;
 
     protected User(){}
