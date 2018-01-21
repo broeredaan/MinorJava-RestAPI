@@ -39,7 +39,6 @@ public class Group {
     @JoinColumn(name = "templateId")
     private Template template;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
     @JsonView(View.Public.class)
     private Set<GroupMember> groupMembers;
