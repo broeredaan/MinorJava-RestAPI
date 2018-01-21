@@ -51,7 +51,8 @@ public class RatingServiceImplTest {
 
     @Test
     public void deleteRating() {
-
+        ratingServiceImplMock.deleteRating(0);
+        verify(ratingServiceImplMock, only()).deleteRating(0);
     }
 
     @Test
