@@ -1,6 +1,7 @@
 package com.ajp.yourgrade.persistence;
 
 import com.ajp.yourgrade.model.Group;
+import com.ajp.yourgrade.model.GroupMember;
 import com.ajp.yourgrade.model.Template;
 import org.springframework.data.repository.CrudRepository;
 

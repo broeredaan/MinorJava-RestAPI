@@ -48,5 +48,29 @@ public class MailServiceImpl implements MailService {
         }
     }
 
+    public void sendFinished(String to, String name , String groupName) {
+        try {
+
+            String htmlMessage = "Dear " + name
+                    + ",<br/><br/> Group<i> " + groupName + "</i><br/>"
+                    + "Has submitted their ratings!<br/><br/>"
+                    + "Please login for further information and approval.";
+
+            MimeMessage msg = emailSender.createMimeMessage();
+            msg.setContent(htmlMessage, "text/html");
+
+            MimeMessageHelper helper = new MimeMessageHelper(msg, false, "utf-8");
+
+            helper.setTo(to);
+            helper.setSubject("Group: " + groupName+ " Status: finished");
+
+            emailSender.send(msg);
+
+
+        } catch (MessagingException exception) {
+            exception.printStackTrace();
+        }
+    }
+
 }
 

@@ -331,18 +331,19 @@ public class RestController {
             groupMemberService.saveMember(ratingMember);
         }
 
-        //Send mail to teacher when everyone has submitted
-        Group group = groupService.getById(ratingMember.getGroup().getId());
+//        //Send mail to teacher when everyone has submitted
+//        Group group = groupService.getById(ratingMember.getGroup().getId());
+//
+//        boolean submitted = true;
+//
+//        for (GroupMember member : group.getGroupMembers()) {
+//            if(!member.isHasSubmitted()){
+//                submitted = false;
+//            }
+//        }
 
-        boolean submitted = true;
+        //TODO: Send email notification, but how to retrieve the teachers' email address?
 
-        for (GroupMember member : group.getGroupMembers()) {
-            if(!member.isHasSubmitted()){
-                submitted = false;
-            }
-        }
-
-        //Send email
 
         return ResponseEntity.ok(true);
     }
