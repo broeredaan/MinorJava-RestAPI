@@ -19,6 +19,9 @@ import static org.mockito.internal.verification.VerificationModeFactory.only;
 import org.junit.Test;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
  public class GroupServiceImplTest {
 
@@ -58,6 +61,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
     @Test
     public void getByTemplate() {
+        Template templateMock = Mockito.mock(Template.class);
+        Group group = new Group("Test",new java.util.Date(),new java.util.Date(),8,templateMock,true);
+        List<Group> groupList = new ArrayList<>();
+        groupList.add(group);
+        when(groupRepository.findByTemplate(templateMock)).thenReturn(groupList);
+        List<Group> result = groupServiceImpl.getByTemplate(templateMock);
+        for (Group resultGroup : result) {
+            assertEquals(0,resultGroup.getId());
+            assertEquals("Test", resultGroup.getName());
+            assertEquals(new java.util.Date(), resultGroup.getCreationDate());
+            assertEquals(new java.util.Date(), resultGroup.getDeadline());
+            assertEquals(8, resultGroup.getGroupGrade());
+        }
     }
 
     @Test
