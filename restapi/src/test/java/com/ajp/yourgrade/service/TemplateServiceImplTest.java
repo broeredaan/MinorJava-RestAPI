@@ -10,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.only;
@@ -30,6 +29,11 @@ public class TemplateServiceImplTest {
     @InjectMocks
     private TemplateServiceImpl templateServiceImpl;
 
+    @Mock
+    private TemplateServiceImpl templateServiceImplMock;
+    @Mock
+    private User userMock;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -37,20 +41,18 @@ public class TemplateServiceImplTest {
 
     @Test
     public void addTemplate() {
-        User userMock = mock(User.class);
-        TemplateServiceImpl templateServiceImplMock = mock(TemplateServiceImpl.class);
         templateServiceImplMock.addTemplate("Name", 2, true, userMock);
         verify(templateServiceImplMock, only()).addTemplate("Name", 2, true, userMock);
     }
 
     @Test
     public void deleteTemplate() {
-
+        templateServiceImplMock.deleteTemplate( 2);
+        verify(templateServiceImplMock, only()).deleteTemplate( 2);
     }
 
     @Test
     public void getTemplateById() {
-        User userMock = mock(User.class);
         //Give value that will be returned when a user is searched in the repo (id)
         when(templateRepository.findById(0)).thenReturn(new Template("Test",1,true,userMock));
         //Get a user from the service
@@ -65,7 +67,6 @@ public class TemplateServiceImplTest {
 
     @Test
     public void getTemplateByUser() {
-        User userMock = mock(User.class);
         List<Template> templateList = new ArrayList<Template>();
         templateList.add(new Template("Test",1,true,userMock));
         when(templateRepository.findByUser(userMock)).thenReturn(templateList);
