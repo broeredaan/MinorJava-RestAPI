@@ -2,6 +2,7 @@ package com.ajp.yourgrade.model;
 
 public class UserBody {
 
+    private String userToken;
     private String name;
     private String email;
     private boolean isAdmin;
@@ -13,12 +14,25 @@ public class UserBody {
 
     }
 
-    public UserBody(String name, String email, boolean isAdmin, String password, String language) {
+    public UserBody(String userToken, String name, String email, boolean isAdmin, String password, String language) {
+        this.userToken = userToken;
         this.name = name;
         this.email = email;
         this.isAdmin = isAdmin;
         this.password = password;
         this.language = language;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
     public String getName() {

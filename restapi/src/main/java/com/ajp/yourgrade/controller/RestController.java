@@ -78,6 +78,10 @@ public class RestController {
 
     @RequestMapping(method = RequestMethod.PUT, path = "user/create")
     public ResponseEntity<Boolean> createUser(@RequestBody UserBody body) {
+        if(!userService.getUserByToken(body.getUserToken()).isAdmin()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
         userService.addUser(body.getName(), body.getEmail(), body.getIsAdmin(), body.getPassword(), body.getLanguage());
         return ResponseEntity.ok(true);
     }
@@ -99,7 +103,12 @@ public class RestController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        return ResponseEntity.ok(templateService.getTemplateById(id));
+        Template template = templateService.getTemplateById(id);
+        if(template.getUser().getId() != userService.getUserByToken(token).getId()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        return ResponseEntity.ok(template);
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "template/create")
@@ -118,6 +127,11 @@ public class RestController {
     public ResponseEntity<Boolean> deleteTemplate(@RequestParam(value = "userToken") String token,
                                                   @RequestParam(value = "templateId") int id) {
         if (!userService.isLastUserToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        Template template = templateService.getTemplateById(id);
+        if(template.getUser().getId() != userService.getUserByToken(token).getId()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
@@ -151,7 +165,12 @@ public class RestController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        return ResponseEntity.ok(groupService.getById(id));
+        Group group = groupService.getById(id);
+        if(group.getTemplate().getUser().getId() != userService.getUserByToken(token).getId()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        return ResponseEntity.ok(group);
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "group/create")
@@ -182,7 +201,12 @@ public class RestController {
 
 
     @RequestMapping(method = RequestMethod.PUT, path = "group/approve")
-    public ResponseEntity<Boolean> approveGroup(@RequestParam(value = "id") int id) throws IOException {
+    public ResponseEntity<Boolean> approveGroup(@RequestParam(value = "id") int id,
+                                                @RequestParam(value = "userToken") String userToken) throws IOException {
+        if(groupService.getById(id).getTemplate().getUser().getId() != userService.getUserByToken(userToken).getId()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
         approveService.approve(id);
         approveService.setFinalGrade(id);
         approveService.createPdf(id);
@@ -191,7 +215,12 @@ public class RestController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "group/pdf")
-    public   ResponseEntity<InputStreamResource> getPdf(@RequestParam(value = "id") int id) throws IOException {
+    public   ResponseEntity<InputStreamResource> getPdf(@RequestParam(value = "id") int id,
+                                                        @RequestParam(value = "userToken") String userToken) throws IOException {
+        if(groupService.getById(id).getTemplate().getUser().getId() != userService.getUserByToken(userToken).getId()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
         File file = new File("download/" + id + ".pdf");
         HttpHeaders respHeaders = new HttpHeaders();
         respHeaders.setContentType(MediaType.valueOf("application/pdf"));
@@ -303,7 +332,7 @@ public class RestController {
     }
 
     @Autowired
-    public MailService mailService;
+    private MailService mailService;
 
     @Autowired
     private ConfigProperties configProperties;
