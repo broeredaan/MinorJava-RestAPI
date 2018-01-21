@@ -18,6 +18,9 @@ import static org.mockito.internal.verification.VerificationModeFactory.only;
 import org.junit.Test;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TemplateServiceImplTest {
 
@@ -63,6 +66,15 @@ public class TemplateServiceImplTest {
     @Test
     public void getTemplateByUser() {
         User userMock = mock(User.class);
-        when(templateRepository.findByUser(userMock)).thenReturn(new Template("Test",1,true,userMock));
+        List<Template> templateList = new ArrayList<Template>();
+        templateList.add(new Template("Test",1,true,userMock));
+        when(templateRepository.findByUser(userMock)).thenReturn(templateList);
+        List<Template> result = templateServiceImpl.getTemplateByUser(userMock);
+        for (Template template : result) {
+            assertEquals(0,template.getId());
+            assertEquals("Test", template.getName());
+            assertEquals(1, template.getGradeDeviation());
+            assertEquals(true, template.isCommentNeeded());
+        }
     }
 }
