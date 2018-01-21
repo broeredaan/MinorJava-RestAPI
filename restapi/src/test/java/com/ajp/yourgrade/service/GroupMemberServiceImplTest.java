@@ -18,8 +18,6 @@ class GroupMemberServiceImplTest {
     @InjectMocks
     private GroupMemberServiceImpl groupMemberServiceImpl;
 
-
-
     @Test
     void createMember() {
     }
