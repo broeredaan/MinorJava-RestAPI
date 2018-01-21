@@ -30,6 +30,9 @@ public class TemplateServiceImplTest {
     @InjectMocks
     private TemplateServiceImpl templateServiceImpl;
 
+    @Mock
+    private TemplateServiceImpl templateServiceImplMock;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -38,14 +41,14 @@ public class TemplateServiceImplTest {
     @Test
     public void addTemplate() {
         User userMock = mock(User.class);
-        TemplateServiceImpl templateServiceImplMock = mock(TemplateServiceImpl.class);
         templateServiceImplMock.addTemplate("Name", 2, true, userMock);
         verify(templateServiceImplMock, only()).addTemplate("Name", 2, true, userMock);
     }
 
     @Test
     public void deleteTemplate() {
-
+        templateServiceImplMock.deleteTemplate( 2);
+        verify(templateServiceImplMock, only()).deleteTemplate( 2);
     }
 
     @Test
