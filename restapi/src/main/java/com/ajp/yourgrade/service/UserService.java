@@ -1,6 +1,7 @@
 package com.ajp.yourgrade.service;
 
 import com.ajp.yourgrade.model.User;
+import com.ajp.yourgrade.model.UserToken;
 
 import java.util.List;
 
@@ -9,4 +10,7 @@ public interface UserService {
     void deleteUser(int id);
     User getUserById(int id);
     User findByEmail(String email);
+    String login(int id);
+    User getUserByToken(String token);
+    boolean isLastUserToken(String token);
 }

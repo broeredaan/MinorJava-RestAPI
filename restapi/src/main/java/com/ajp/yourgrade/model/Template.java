@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "template")
+@Table(name = "Template")
 public class Template {
 
     @Id
@@ -22,7 +22,8 @@ public class Template {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(mappedBy = "template", fetch = FetchType.EAGER)
     private Set<Group> groups;
 
     protected Template(){}

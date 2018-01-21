@@ -10,4 +10,5 @@ public interface TemplateRepository extends CrudRepository<Template, Long> {
 
     Template findById(int id);
     List<Template> findByUser(User user);
+    void deleteById(int id);
 }

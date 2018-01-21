@@ -5,10 +5,12 @@ import com.ajp.yourgrade.model.Template;
 import com.ajp.yourgrade.persistence.GroupRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class GroupServiceImpl implements GroupService {
 
     private GroupRepository groupRepository;
@@ -18,13 +20,14 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void addGroup(String name, Date creationDate, Date deadline, double groupGrade, Template template) {
-        groupRepository.save(new Group(name, creationDate,deadline,groupGrade,template));
+    public int addGroup(String name, Date creationDate, Date deadline, double groupGrade, Template template) {
+        Group group = groupRepository.save(new Group(name, creationDate,deadline,groupGrade,template));
+        return group.getId();
     }
 
     @Override
     public void deleteGroup(int id) {
-        groupRepository.delete(groupRepository.findById(id));
+        groupRepository.deleteById(id);
     }
 
     @Override
@@ -35,5 +38,12 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<Group> getByTemplate(Template template) {
         return  groupRepository.findByTemplate(template);
+    }
+
+    @Override
+    public void setApproved(boolean isApproved, int id) {
+        Group group = getById(id);
+        group.setApproved(isApproved);
+        groupRepository.save(group);
     }
 }
