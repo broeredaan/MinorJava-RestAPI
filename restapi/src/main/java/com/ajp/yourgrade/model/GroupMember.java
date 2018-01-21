@@ -24,6 +24,8 @@ public class GroupMember {
 
     private String email;
     private String token;
+
+    @JsonView(View.Teacher.class)
     private boolean hasSubmitted;
     private double finalGrade;
 

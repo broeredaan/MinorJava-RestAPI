@@ -1,6 +1,8 @@
 package com.ajp.yourgrade.model;
 
+import com.ajp.yourgrade.View;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.context.annotation.Primary;
 
 import javax.persistence.*;
@@ -14,11 +16,22 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "projectGroupId")
+    @JsonView(View.Public.class)
     private int id;
+
+    @JsonView(View.Public.class)
     private String name;
+
+    @JsonView(View.Public.class)
     private Date creationDate;
+
+    @JsonView(View.Public.class)
     private Date deadline;
+
+    @JsonView(View.Public.class)
     private double groupGrade;
+
+    @JsonView(View.Public.class)
     private boolean isApproved;
 
     @JsonIgnore
@@ -28,6 +41,7 @@ public class Group {
 
     @JsonIgnore
     @OneToMany(mappedBy = "group", fetch = FetchType.EAGER)
+    @JsonView(View.Public.class)
     private Set<GroupMember> groupMembers;
 
     protected Group(){}
