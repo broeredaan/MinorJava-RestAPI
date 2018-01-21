@@ -5,10 +5,12 @@ import com.ajp.yourgrade.model.Template;
 import com.ajp.yourgrade.persistence.GroupRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class GroupServiceImpl implements GroupService {
 
     private GroupRepository groupRepository;
@@ -25,7 +27,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void deleteGroup(int id) {
-        groupRepository.delete(groupRepository.findById(id));
+        groupRepository.deleteById(id);
     }
 
     @Override

@@ -5,9 +5,11 @@ import com.ajp.yourgrade.model.Rating;
 import com.ajp.yourgrade.persistence.RatingRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class RatingServiceImpl implements RatingService{
 
     private RatingRepository ratingRepository;
@@ -23,7 +25,10 @@ public class RatingServiceImpl implements RatingService{
 
     @Override
     public void deleteRating(int id) {
-        ratingRepository.delete(ratingRepository.findById(id));
+        Rating rating = ratingRepository.findById(id);
+        rating.setRatedMember(null);
+        ratingRepository.save(rating);
+        ratingRepository.deleteById(id);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class GroupMember {
     private Group group;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "groupMember", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "groupMember", fetch = FetchType.EAGER)
     private Set<Rating> ratings;
 
     protected GroupMember(){}

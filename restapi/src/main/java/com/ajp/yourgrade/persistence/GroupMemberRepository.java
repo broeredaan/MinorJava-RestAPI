@@ -12,4 +12,5 @@ public interface GroupMemberRepository extends CrudRepository<GroupMember, Long>
     GroupMember findByEmail(String email);
     GroupMember findByToken(String token);
     List<GroupMember> findByGroup(Group group);
+    void deleteById(int id);
 }

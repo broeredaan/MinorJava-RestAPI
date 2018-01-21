@@ -6,11 +6,13 @@ import com.ajp.yourgrade.model.GroupMember;
 import com.ajp.yourgrade.persistence.GroupMemberRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public  class GroupMemberServiceImpl implements GroupMemberService {
 
     private GroupMemberRepository groupMemberRepository;
@@ -27,7 +29,10 @@ public  class GroupMemberServiceImpl implements GroupMemberService {
 
     @Override
     public void deleteMember(int id) {
-        groupMemberRepository.delete(groupMemberRepository.findById(id));
+        GroupMember member = groupMemberRepository.findById(id);
+        member.setRatings(null);
+        groupMemberRepository.save(member);
+        groupMemberRepository.deleteById(id);
 
     }
 

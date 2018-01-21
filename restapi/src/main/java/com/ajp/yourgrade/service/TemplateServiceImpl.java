@@ -5,9 +5,11 @@ import com.ajp.yourgrade.model.User;
 import com.ajp.yourgrade.persistence.TemplateRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class TemplateServiceImpl implements TemplateService{
 
     private TemplateRepository templateRepository;
@@ -23,7 +25,8 @@ public class TemplateServiceImpl implements TemplateService{
 
     @Override
     public void deleteTemplate(int id) {
-        templateRepository.delete(templateRepository.findById(id));
+
+        templateRepository.deleteById(id);
     }
 
     @Override

@@ -11,4 +11,5 @@ public interface UserTokenRepository extends CrudRepository<UserToken, Long> {
     UserToken findById(int id);
     UserToken findByToken(String token);
     List<UserToken> findByUser(User user);
+    void deleteById(int id);
 }
