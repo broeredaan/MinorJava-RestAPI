@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface GroupService {
 
-    int addGroup(String name, Date creationDate, Date deadline, double groupGrade, Template template);
+    int addGroup(String name, Date creationDate, Date deadline, double groupGrade, Template template, boolean isSend);
     void deleteGroup(int id);
     Group getById(int id);
     List<Group> getByTemplate(Template template);
     void setApproved(boolean isApproved, int id);
+    void setSend(boolean isSend, int id);
 }

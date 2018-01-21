@@ -190,7 +190,7 @@ public class RestController {
             Date deadlineDate = format.parse(body.getDeadline());
 
             Template template = templateService.getTemplateById(body.getTemplateId());
-            int groupId = groupService.addGroup(body.getName(), new Date(), deadlineDate, body.getGroupGrade(), template);
+            int groupId = groupService.addGroup(body.getName(), new Date(), deadlineDate, body.getGroupGrade(), template, false);
 
             for (GroupMemberBody member : body.getMembers()) {
                 groupMemberService.createMember(member.getName(), member.getEmail(),
@@ -331,6 +331,19 @@ public class RestController {
             groupMemberService.saveMember(ratingMember);
         }
 
+        //Send mail to teacher when everyone has submitted
+        Group group = groupService.getById(ratingMember.getGroup().getId());
+
+        boolean submitted = true;
+
+        for (GroupMember member : group.getGroupMembers()) {
+            if(!member.isHasSubmitted()){
+                submitted = false;
+            }
+        }
+
+        //Send email
+
         return ResponseEntity.ok(true);
     }
 
@@ -347,11 +360,23 @@ public class RestController {
         }
 
         Group group = groupService.getById(body.getGroupId());
+
+//        //Already send
+//        if(group.isSend()) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+//        }
+
         Set<GroupMember> members = group.getGroupMembers();
 
-        for (GroupMember member : members) {
-            mailService.sendRequest(member.getEmail(), member.getName(), member.getToken(), configProperties.getSurveyLink(), userService.getUserByToken(body.getUserToken()).getName());
+        try {
+            for (GroupMember member : members) {
+                mailService.sendRequest(member.getEmail(), member.getName(), member.getToken(), configProperties.getSurveyLink(), userService.getUserByToken(body.getUserToken()).getName());
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+
+        groupService.setSend(true, body.getGroupId());
 
         return ResponseEntity.ok(true);
     }

@@ -34,6 +34,9 @@ public class Group {
     @JsonView(View.Public.class)
     private boolean isApproved;
 
+    @JsonView(View.Teacher.class)
+    private boolean isSend;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "templateId")
@@ -45,12 +48,13 @@ public class Group {
 
     protected Group(){}
 
-    public Group(String name, Date creationDate, Date deadline, double groupGrade, Template template) {
+    public Group(String name, Date creationDate, Date deadline, double groupGrade, Template template, boolean isSend) {
         this.name = name;
         this.creationDate = creationDate;
         this.deadline = deadline;
         this.groupGrade = groupGrade;
         this.template = template;
+        this.isSend = isSend;
     }
 
     @Override
@@ -124,5 +128,13 @@ public class Group {
 
     public void setGroupMembers(Set<GroupMember> groupMembers) {
         this.groupMembers = groupMembers;
+    }
+
+    public boolean isSend() {
+        return isSend;
+    }
+
+    public void setSend(boolean send) {
+        isSend = send;
     }
 }

@@ -36,9 +36,10 @@ public  class GroupMemberServiceImpl implements GroupMemberService {
 
     }
 
+    //Not sure if functioning properly
     @Override
     public List<GroupMember> getMembersByGroup(int id) {
-        return groupMemberRepository.findByGroup(new Group("", new Date(), new Date(), 7, null));
+        return groupMemberRepository.findByGroup(new Group("", new Date(), new Date(), 7, null, false));
     }
 
     public List<GroupMember> getMembersByGroup(Group group) {
