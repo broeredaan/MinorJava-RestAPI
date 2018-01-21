@@ -29,7 +29,12 @@ public class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
     private UserTokenRepository userTokenRepository;
+
+    @InjectMocks
+    private UserServiceImpl userService;
 
     @Before
     public void setup() {
@@ -39,19 +44,24 @@ public class UserServiceImplTest {
 
     @Test
     public void addUser() {
-
+        userService.addUser("adf", "adf.nl", true, "adf", "nl");
+        User result = userService.getUserById(0);
+        assertEquals(0,result.getId());
     }
 
     @Test
     public void deleteUser() {
         when(userRepository.findById(0)).thenReturn(new User("af", "adf.nl", true, "adf", "nl"));
-            
+
     }
 
     @Test
     public void getUserById() {
+        //Give value that will be returned when a user is searched in the repo (id)
         when(userRepository.findById(0)).thenReturn(new User("af", "adf.nl", true, "adf", "nl"));
-        User result = userRepository.findById(0);
+        //Get a user from the service
+        User result = userService.getUserById(0);
+        //Check if the values are correct.
         assertEquals(0,result.getId());
         assertEquals("af", result.getName());
         assertEquals("adf.nl", result.getEmail());
