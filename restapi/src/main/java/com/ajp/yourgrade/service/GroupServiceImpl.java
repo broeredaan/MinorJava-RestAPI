@@ -1,6 +1,7 @@
 package com.ajp.yourgrade.service;
 
 import com.ajp.yourgrade.model.Group;
+import com.ajp.yourgrade.model.GroupMember;
 import com.ajp.yourgrade.model.Template;
 import com.ajp.yourgrade.persistence.GroupRepository;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,8 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public int addGroup(String name, Date creationDate, Date deadline, double groupGrade, Template template) {
-        Group group = groupRepository.save(new Group(name, creationDate,deadline,groupGrade,template));
+    public int addGroup(String name, Date creationDate, Date deadline, double groupGrade, Template template, boolean isSend) {
+        Group group = groupRepository.save(new Group(name, creationDate,deadline,groupGrade,template, isSend));
         return group.getId();
     }
 
@@ -46,4 +47,12 @@ public class GroupServiceImpl implements GroupService {
         group.setApproved(isApproved);
         groupRepository.save(group);
     }
+
+    @Override
+    public void setSend(boolean isSend, int id) {
+        Group group = getById(id);
+        group.setSend(true);
+        groupRepository.save(group);
+    }
+
 }

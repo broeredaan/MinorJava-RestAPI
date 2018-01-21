@@ -41,17 +41,21 @@ public class RestController {
     private GroupMemberService groupMemberService;
     private RatingService ratingService;
     private ApproveService approveService;
+    private MailService mailService;
+    private ConfigProperties configProperties;
 
     /**
      *
      */
-    public RestController(@Autowired UserService userService, TemplateService templateService, GroupService groupService, GroupMemberService groupMemberService, RatingService ratingService, ApproveService approveService) {
+    public RestController(@Autowired UserService userService, TemplateService templateService, GroupService groupService, GroupMemberService groupMemberService, RatingService ratingService, ApproveService approveService, MailService mailService, ConfigProperties configProperties) {
         this.userService = userService;
         this.templateService = templateService;
         this.groupService = groupService;
         this.groupMemberService = groupMemberService;
         this.ratingService = ratingService;
         this.approveService = approveService;
+        this.mailService = mailService;
+        this.configProperties = configProperties;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "user")
@@ -186,12 +190,13 @@ public class RestController {
             Date deadlineDate = format.parse(body.getDeadline());
 
             Template template = templateService.getTemplateById(body.getTemplateId());
-            int groupId = groupService.addGroup(body.getName(), new Date(), deadlineDate, body.getGroupGrade(), template);
+            int groupId = groupService.addGroup(body.getName(), new Date(), deadlineDate, body.getGroupGrade(), template, false);
 
             for (GroupMemberBody member : body.getMembers()) {
                 groupMemberService.createMember(member.getName(), member.getEmail(),
                         false, groupService.getById(groupId));
             }
+
         } catch (ParseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -326,14 +331,22 @@ public class RestController {
             groupMemberService.saveMember(ratingMember);
         }
 
+//        //Send mail to teacher when everyone has submitted
+//        Group group = groupService.getById(ratingMember.getGroup().getId());
+//
+//        boolean submitted = true;
+//
+//        for (GroupMember member : group.getGroupMembers()) {
+//            if(!member.isHasSubmitted()){
+//                submitted = false;
+//            }
+//        }
+
+        //TODO: Send email notification, but how to retrieve the teachers' email address?
+
+
         return ResponseEntity.ok(true);
     }
-
-    @Autowired
-    private MailService mailService;
-
-    @Autowired
-    private ConfigProperties configProperties;
 
     @RequestMapping(path = "mail/sendRequest")
     public ResponseEntity<Boolean> createRequest(@RequestBody MailBody body, Errors errors) {
@@ -347,7 +360,25 @@ public class RestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        mailService.sendRequest(body.getEmail(), body.getName(), groupMemberService.getTokenByEmail(body.getEmail()), configProperties.getSurveyLink(), userService.getUserByToken(body.getUserToken()).getName());
+        Group group = groupService.getById(body.getGroupId());
+
+//        //Already send
+//        if(group.isSend()) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+//        }
+
+        Set<GroupMember> members = group.getGroupMembers();
+
+        try {
+            for (GroupMember member : members) {
+                mailService.sendRequest(member.getEmail(), member.getName(), member.getToken(), configProperties.getSurveyLink(), userService.getUserByToken(body.getUserToken()).getName());
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        groupService.setSend(true, body.getGroupId());
+
         return ResponseEntity.ok(true);
     }
 

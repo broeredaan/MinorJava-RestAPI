@@ -2,6 +2,7 @@ package com.ajp.yourgrade.service;
 
 import com.ajp.yourgrade.model.Group;
 import com.ajp.yourgrade.model.GroupMember;
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public interface GroupMemberService {
     void saveMember(GroupMember member);
 
     String getTokenByEmail(String email);
+
+    String getTokenById(int id);
 
     void setFinalGrade(GroupMember groupMember, double finalGrade);
 }

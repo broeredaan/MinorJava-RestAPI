@@ -36,9 +36,10 @@ public  class GroupMemberServiceImpl implements GroupMemberService {
 
     }
 
+    //Not sure if functioning properly
     @Override
     public List<GroupMember> getMembersByGroup(int id) {
-        return groupMemberRepository.findByGroup(new Group("", new Date(), new Date(), 7, null));
+        return groupMemberRepository.findByGroup(new Group("", new Date(), new Date(), 7, null, false));
     }
 
     public List<GroupMember> getMembersByGroup(Group group) {
@@ -62,6 +63,9 @@ public  class GroupMemberServiceImpl implements GroupMemberService {
 
     @Override
     public String getTokenByEmail(String email) {return groupMemberRepository.findByEmail(email).getToken();}
+
+    @Override
+    public String getTokenById(int id) {return groupMemberRepository.findById(id).getToken();}
 
     @Override
     public void setFinalGrade(GroupMember groupMember, double finalGrade) {
