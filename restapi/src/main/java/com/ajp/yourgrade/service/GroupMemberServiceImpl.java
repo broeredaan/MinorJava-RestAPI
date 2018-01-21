@@ -59,6 +59,9 @@ public  class GroupMemberServiceImpl implements GroupMemberService {
     public String getTokenByEmail(String email) {return groupMemberRepository.findByEmail(email).getToken();}
 
     @Override
+    public String getTokenById(int id) {return groupMemberRepository.findById(id).getToken();}
+
+    @Override
     public void setFinalGrade(GroupMember groupMember, double finalGrade) {
         groupMember.setFinalGrade(finalGrade);
         groupMemberRepository.save(groupMember);
