@@ -28,6 +28,7 @@ public class GroupMemberServiceImplTest {
 
     @Mock
     private Template template;
+
     @Mock
     private User user;
 
