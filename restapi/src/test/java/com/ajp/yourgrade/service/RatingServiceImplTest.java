@@ -17,6 +17,9 @@ import static org.mockito.internal.verification.VerificationModeFactory.only;
 import org.junit.Test;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RatingServiceImplTest {
 
@@ -51,7 +54,8 @@ public class RatingServiceImplTest {
 
     @Test
     public void deleteRating() {
-
+        ratingServiceImplMock.deleteRating(0);
+        verify(ratingServiceImplMock, only()).deleteRating(0);
     }
 
     @Test
@@ -70,13 +74,37 @@ public class RatingServiceImplTest {
 
     @Test
     public void getByGroupMember() {
+        List<Rating> ratingList = new ArrayList<Rating>();
+        ratingList.add(rating);
+        when(ratingRepository.findByGroupMember(groupMemberMock)).thenReturn(ratingList);
+        List<Rating> result = ratingServiceImpl.getByGroupMember(groupMemberMock);
+        for (Rating r : result) {
+            assertEquals(0,r.getId());
+            assertEquals(6.0, r.getGrade());
+            assertEquals("TESTING", r.getComment());
+            assertEquals(groupMemberMock, r.getGroupMember());
+            assertEquals(groupMemberMock2, r.getRatedMember());
+        }
     }
 
     @Test
     public void getByRatedMember() {
+        List<Rating> ratingList = new ArrayList<Rating>();
+        ratingList.add(rating);
+        when(ratingRepository.findByRatedMember(groupMemberMock2)).thenReturn(ratingList);
+        List<Rating> result = ratingServiceImpl.getByGroupMember(groupMemberMock2);
+        for (Rating r : result) {
+            assertEquals(0,r.getId());
+            assertEquals(6.0, r.getGrade());
+            assertEquals("TESTING", r.getComment());
+            assertEquals(groupMemberMock, r.getGroupMember());
+            assertEquals(groupMemberMock2, r.getRatedMember());
+        }
     }
 
     @Test
     public void saveRating() {
+        ratingServiceImplMock.saveRating(rating);
+        verify(ratingServiceImplMock, only()).saveRating(rating);
     }
 }
