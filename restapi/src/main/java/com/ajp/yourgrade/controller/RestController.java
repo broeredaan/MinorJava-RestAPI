@@ -126,6 +126,7 @@ public class RestController {
         return ResponseEntity.ok(true);
     }
 
+    @JsonView(View.Teacher.class)
     @RequestMapping(method = RequestMethod.GET, path = "group")
     public ResponseEntity<List<Group>> getUserGroups(@RequestParam(value = "userToken") String token) {
         if (!userService.isLastUserToken(token)) {
@@ -144,6 +145,7 @@ public class RestController {
         return ResponseEntity.ok(groups);
     }
 
+    @JsonView(View.Teacher.class)
     @RequestMapping(method = RequestMethod.GET, path = "group/single")
     public ResponseEntity<Group> getGroup(@RequestParam(value = "userToken") String token,
                                           @RequestParam(value = "id") int id) {
@@ -177,8 +179,6 @@ public class RestController {
 
         return ResponseEntity.ok(true);
     }
-
-
 
 
     @RequestMapping(method = RequestMethod.PUT, path = "group/approve")
@@ -274,25 +274,6 @@ public class RestController {
 
         }
 
-//        for (RatingBody item : body) {
-//
-//            GroupMember member = groupMemberService.getMemberByToken(item.getToken());
-//            List<Rating> ratings = ratingService.getByGroupMember(member);
-//
-//            if (!member.isHasSubmitted()) {
-//                member.setHasSubmitted(true);
-//                groupMemberService.saveMember(member);
-//            }
-//
-//            for (Rating rating : ratings) {
-//                if (rating.getRatedMember().getId() == item.getRatedMemberId()) {
-//                    rating.setGrade(item.getGrade());
-//                    rating.setComment(item.getComment());
-//                    ratingService.saveRating(rating);
-//                }
-//            }
-//        }
-
         //Update the member status to submitted
         if(!ratingMember.isHasSubmitted()) {
             ratingMember.setHasSubmitted(true);
@@ -303,7 +284,7 @@ public class RestController {
     }
 
     @Autowired
-    public MailService mailService;
+    private MailService mailService;
 
     @Autowired
     private ConfigProperties configProperties;
