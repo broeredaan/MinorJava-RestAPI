@@ -4,21 +4,21 @@ import com.ajp.yourgrade.model.GroupMember;
 import com.ajp.yourgrade.model.Rating;
 import com.ajp.yourgrade.persistence.RatingRepository;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.only;
 
+import org.junit.Test;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-class RatingServiceImplTest {
+public class RatingServiceImplTest {
 
     @Mock
     private RatingRepository ratingRepository;
@@ -30,9 +30,12 @@ class RatingServiceImplTest {
     private RatingServiceImpl ratingServiceImplMock;
 
     @Mock
-    private GroupMember GroupMemberMock;
+    private GroupMember groupMemberMock;
 
-    private Rating rating = new Rating(6,"TESTING",GroupMemberMock,GroupMemberMock);
+    @Mock
+    private GroupMember groupMemberMock2;
+
+    private Rating rating = new Rating(6.0,"TESTING",groupMemberMock,groupMemberMock2);
 
 
     @Before
@@ -41,38 +44,39 @@ class RatingServiceImplTest {
     }
 
     @Test
-    void addRating() {
-        ratingServiceImplMock.addRating(8, "Testing", GroupMemberMock, GroupMemberMock);
-        verify(ratingServiceImplMock, only()).addRating(8, "Testing", GroupMemberMock, GroupMemberMock);
+    public void addRating() {
+        ratingServiceImplMock.addRating(8.0, "Testing", groupMemberMock, groupMemberMock);
+        verify(ratingServiceImplMock, only()).addRating(8.0, "Testing", groupMemberMock, groupMemberMock);
     }
 
     @Test
-    void deleteRating() {
+    public void deleteRating() {
 
     }
 
     @Test
-    void getById() {
-        /*//Give value that will be returned when a user is searched in the repo (id)
+    public void getById() {
+        //Give value that will be returned when a user is searched in the repo (id)
         when(ratingRepository.findById(0)).thenReturn(rating);
         //Get a user from the service
-        Rating result = templateServiceImpl.getTemplateById(0);
+        Rating result = ratingServiceImpl.getById(0);
         //Check if the values are correct.
         assertEquals(0,result.getId());
-        assertEquals("Test", result.getName());
-        assertEquals(1, result.getGradeDeviation());
-        assertEquals(true, result.isCommentNeeded());*/
+        assertEquals(6.0, result.getGrade());
+        assertEquals("TESTING", result.getComment());
+        assertEquals(groupMemberMock, result.getGroupMember());
+        assertEquals(groupMemberMock, result.getRatedMember());
     }
 
     @Test
-    void getByGroupMember() {
+    public void getByGroupMember() {
     }
 
     @Test
-    void getByRatedMember() {
+    public void getByRatedMember() {
     }
 
     @Test
-    void saveRating() {
+    public void saveRating() {
     }
 }
