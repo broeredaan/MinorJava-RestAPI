@@ -34,6 +34,8 @@ public class TemplateServiceImplTest {
     @Mock
     private User userMock;
 
+    private Template template = new Template("Test",1,true,userMock);
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -54,7 +56,7 @@ public class TemplateServiceImplTest {
     @Test
     public void getTemplateById() {
         //Give value that will be returned when a user is searched in the repo (id)
-        when(templateRepository.findById(0)).thenReturn(new Template("Test",1,true,userMock));
+        when(templateRepository.findById(0)).thenReturn(template);
         //Get a user from the service
         Template result = templateServiceImpl.getTemplateById(0);
         //Check if the values are correct.
@@ -68,7 +70,7 @@ public class TemplateServiceImplTest {
     @Test
     public void getTemplateByUser() {
         List<Template> templateList = new ArrayList<Template>();
-        templateList.add(new Template("Test",1,true,userMock));
+        templateList.add(template);
         when(templateRepository.findByUser(userMock)).thenReturn(templateList);
         List<Template> result = templateServiceImpl.getTemplateByUser(userMock);
         for (Template template : result) {

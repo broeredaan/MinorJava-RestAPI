@@ -1,6 +1,7 @@
 package com.ajp.yourgrade.service;
 
 import com.ajp.yourgrade.model.GroupMember;
+import com.ajp.yourgrade.model.Rating;
 import com.ajp.yourgrade.persistence.RatingRepository;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,10 @@ class RatingServiceImplTest {
     @Mock
     private RatingServiceImpl ratingServiceImplMock;
 
+    @Mock
+    private GroupMember GroupMemberMock;
+
+    private Rating rating = new Rating(6,"TESTING",GroupMemberMock,GroupMemberMock);
 
 
     @Before
@@ -37,7 +42,6 @@ class RatingServiceImplTest {
 
     @Test
     void addRating() {
-        GroupMember GroupMemberMock = mock(GroupMember.class);
         ratingServiceImplMock.addRating(8, "Testing", GroupMemberMock, GroupMemberMock);
         verify(ratingServiceImplMock, only()).addRating(8, "Testing", GroupMemberMock, GroupMemberMock);
     }
@@ -49,11 +53,10 @@ class RatingServiceImplTest {
 
     @Test
     void getById() {
-        /*User userMock = mock(User.class);
-        //Give value that will be returned when a user is searched in the repo (id)
-        when(templateRepository.findById(0)).thenReturn(new Template("Test",1,true,userMock));
+        /*//Give value that will be returned when a user is searched in the repo (id)
+        when(ratingRepository.findById(0)).thenReturn(rating);
         //Get a user from the service
-        Template result = templateServiceImpl.getTemplateById(0);
+        Rating result = templateServiceImpl.getTemplateById(0);
         //Check if the values are correct.
         assertEquals(0,result.getId());
         assertEquals("Test", result.getName());
