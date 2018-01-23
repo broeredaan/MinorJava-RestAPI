@@ -19,18 +19,25 @@ public class Pdf {
     private PDPageContentStream contentStream;
 
     public Pdf() throws IOException {
-
         document = new PDDocument();
         page = new PDPage();
         document.addPage(page);
         contentStream = new PDPageContentStream(document, page);
     }
 
-    public void print(String text) throws IOException {
+    public void addPage() throws IOException {
+        yLoc = 750;
+        contentStream.close();
+        PDPage newPage = new PDPage();
+        document.addPage(newPage);
+        contentStream = new PDPageContentStream(document,newPage);
+    }
+
+    public void print(String text,int fontSize) throws IOException {
         contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA, 12);
+        contentStream.setFont(PDType1Font.HELVETICA, fontSize);
         yLoc -= 20;
-        contentStream.newLineAtOffset(150, yLoc);
+        contentStream.newLineAtOffset(50, yLoc);
         contentStream.showText(text);
         contentStream.endText();
     }
