@@ -33,9 +33,4 @@ public class TemplateServiceImpl implements TemplateService{
     public Template getTemplateById(int id) {
        return templateRepository.findById(id);
     }
-
-    @Override
-    public List<Template> getTemplateByUser(User user) {
-        return templateRepository.findByUser(user);
-    }
 }

@@ -5,7 +5,6 @@ import com.ajp.yourgrade.model.GroupMember;
 import com.ajp.yourgrade.model.Pdf;
 import com.ajp.yourgrade.model.Rating;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;

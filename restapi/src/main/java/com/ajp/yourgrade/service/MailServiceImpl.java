@@ -24,6 +24,7 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private ConfigProperties configProperties;
 
+    @Override
     public void sendRequest(String to, String name, String token, String link, String fromName) {
         try {
 
@@ -48,6 +49,7 @@ public class MailServiceImpl implements MailService {
         }
     }
 
+    @Override
     public void sendFinished(String to, String name , String groupName) {
         try {
 

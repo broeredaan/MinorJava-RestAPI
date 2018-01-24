@@ -24,19 +24,6 @@ public class RatingServiceImpl implements RatingService{
     }
 
     @Override
-    public void deleteRating(int id) {
-        Rating rating = ratingRepository.findById(id);
-        rating.setRatedMember(null);
-        ratingRepository.save(rating);
-        ratingRepository.deleteById(id);
-    }
-
-    @Override
-    public Rating getById(int id) {
-       return ratingRepository.findById(id);
-    }
-
-    @Override
     public List<Rating> getByGroupMember(GroupMember groupmember) {
         return ratingRepository.findByGroupMember(groupmember);
     }

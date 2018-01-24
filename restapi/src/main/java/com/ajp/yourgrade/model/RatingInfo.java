@@ -3,11 +3,7 @@ package com.ajp.yourgrade.model;
 import com.ajp.yourgrade.View;
 import com.fasterxml.jackson.annotation.JsonView;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import java.util.List;
-import java.util.Set;
 
 public class RatingInfo {
 

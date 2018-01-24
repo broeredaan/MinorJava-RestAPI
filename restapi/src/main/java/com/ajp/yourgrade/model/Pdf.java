@@ -7,9 +7,6 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class Pdf {
     private ArrayList<GroupMember> members;
