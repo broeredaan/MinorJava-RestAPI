@@ -21,15 +21,21 @@ public class MailServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    //This method checks if the function sendRequest is called the appropriate amount of times.
     @Test
     public void sendRequest() {
+        //Calls the method.
         mailServiceImpl.sendRequest("email", "name", "token", "href", "me");
+        //Checks how many times the method has been called.
         verify(mailServiceImpl, only()).sendRequest("email", "name", "token", "href", "me");
     }
 
+    //This method checks if the function sendFinished is called the appropriate amount of times.
     @Test
     public void sendFinished() {
+        //Calls the method.
         mailServiceImpl.sendFinished("email", "name", "groupname");
+        //Checks how many times the method has been called.
         verify(mailServiceImpl, only()).sendFinished("email", "name", "groupname");
     }
 }

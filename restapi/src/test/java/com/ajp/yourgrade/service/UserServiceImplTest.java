@@ -30,23 +30,30 @@ public class UserServiceImplTest {
     }
 
 
+    //This method checks if the function addUser is called the appropriate amount of times.
     @Test
     public void addUser() {
+        //Calls the method.
         userServiceImpl.addUser("af", "adf.nl", true, "adf", "nl");
+        //Checks how many times the method has been called.
         verify(userServiceImpl, only()).addUser("af", "adf.nl", true, "adf", "nl");
     }
 
+    //This method checks if the function deleteUser is called the appropriate amount of times.
     @Test
     public void deleteUser() {
+        //Calls the method.
         userServiceImpl.deleteUser(0);
+        //Checks how many times the method has been called.
         verify(userServiceImpl, only()).deleteUser(0);
     }
 
+    //This method tests the return values of the method getUserById.
     @Test
     public void getUserById() {
-        //Give value that will be returned when a user is searched in the repo (id)
+        //Give value that will be returned when a user is searched in the repo (id).
         when(userServiceImpl.getUserById(0)).thenReturn(u);
-        //Get a user from the service
+        //Get a user from the service.
         User result = userServiceImpl.getUserById(0);
         //Check if the values are correct.
         assertEquals(0,result.getId());

@@ -41,23 +41,30 @@ public class TemplateServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    //This method checks if the function addTemplate is called the appropriate amount of times.
     @Test
     public void addTemplate() {
+        //Calls the method.
         templateServiceImplMock.addTemplate("Name", 2, true, userMock);
+        //Checks how many times the method has been called.
         verify(templateServiceImplMock, only()).addTemplate("Name", 2, true, userMock);
     }
 
+    //This method checks if the function deleteTemplate is called the appropriate amount of times.
     @Test
     public void deleteTemplate() {
+        //Calls the method.
         templateServiceImplMock.deleteTemplate( 2);
+        //Checks how many times the method has been called.
         verify(templateServiceImplMock, only()).deleteTemplate( 2);
     }
 
+    //This method tests the return values of the method getTemplateById.
     @Test
     public void getTemplateById() {
-        //Give value that will be returned when a user is searched in the repo (id)
+        //Give value that will be returned when a template is searched in the repo (id).
         when(templateRepository.findById(0)).thenReturn(template);
-        //Get a user from the service
+        //Get a template from the service.
         Template result = templateServiceImpl.getTemplateById(0);
         //Check if the values are correct.
         assertEquals(0,result.getId());
@@ -67,12 +74,17 @@ public class TemplateServiceImplTest {
 
     }
 
+    //This method tests the return values of the method getTemplateByUser.
     @Test
     public void getTemplateByUser() {
+        //Create a List so it can be returned by the Mock class.
         List<Template> templateList = new ArrayList<Template>();
         templateList.add(template);
+        //Give value that will be returned when a template is searched in the repo (user).
         when(templateRepository.findByUser(userMock)).thenReturn(templateList);
+        //Get a template from the service then add it to the List.
         List<Template> result = templateServiceImpl.getTemplateByUser(userMock);
+        //Check if the values are correct.
         for (Template template : result) {
             assertEquals(0,template.getId());
             assertEquals("Test", template.getName());

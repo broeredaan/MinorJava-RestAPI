@@ -26,12 +26,18 @@ public class PdfServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    //This method checks if the function print is called the appropriate amount of times.
     @Test
     public void print() {
+        //In order to test this function the Exception has to be catched or thrown.
         try{
+
+            //Calls the method.
             pdfServiceImplMock.print(group);
+            //Checks how many times the method has been called.
             verify(pdfServiceImplMock, only()).print(group);
         } catch (IOException e){
+            //Catch the exception if it occurs
             e.getStackTrace();
         }
     }

@@ -22,24 +22,35 @@ public class ApproveServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    //This method checks if the function approve is called the appropriate amount of times.
     @Test
     public void approve() {
+        //Calls the method.
         approveServiceImplMock.approve(0);
+        //Checks how many times the method has been called.
         verify(approveServiceImplMock, only()).approve(0);
     }
 
+    //This method checks if the function setFinalGrade is called the appropriate amount of times.
     @Test
     public void setFinalGrade() {
+        //Calls the method.
         approveServiceImplMock.setFinalGrade(0);
+        //Checks how many times the method has been called.
         verify(approveServiceImplMock, only()).setFinalGrade(0);
     }
 
+    //This method checks if the function createPdf is called the appropriate amount of times.
     @Test
     public void createPdf() {
+        //In order to test this function the Exception that it can give has to be catched or thrown.
         try{
+            //Calls the method.
             approveServiceImplMock.createPdf(0);
+            //Checks how many times the method has been called.
             verify(approveServiceImplMock, only()).createPdf(0);
         }catch(IOException e){
+            //Catch the exception if it occurs
             e.printStackTrace();
         }
     }
