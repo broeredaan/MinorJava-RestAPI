@@ -88,6 +88,12 @@ public class TemplateController {
         return ResponseEntity.ok(true);
     }
 
+    /**
+     * API call used to delete templates
+     * @param token RequestParam "userToken" retrieved after first login
+     * @param id RequestParam "templateId" the id of the template, that is to be removed
+     * @return Boolean Returns true if the call was handled successfully
+     */
     @RequestMapping(method = RequestMethod.DELETE, path = "delete")
     public ResponseEntity<Boolean> deleteTemplate(@RequestParam(value = "userToken") String token,
                                                   @RequestParam(value = "templateId") int id) {

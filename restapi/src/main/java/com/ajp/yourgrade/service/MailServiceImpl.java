@@ -30,8 +30,8 @@ public class MailServiceImpl implements MailService {
 
             String htmlMessage = "Dear " + name
                     + ",<br/><br/>You have been asked to rate your group.<br/>"
-                    + "Please use this token:<br/><br/><b>" + token + "</b>"
-                    + "<br/><br/>Go to <a href='" + link + "'a>the rating page</a> to complete your rating."
+                    + "Your token is:<br/><br/><b>" + token + "</b>"
+                    + "<br/><br/>Go to <a href='" + link + token + "'a>the rating page</a> to complete your rating."
                     + "<br/><br/>Kind regards,<br/><br/>"
                     + fromName;
 
