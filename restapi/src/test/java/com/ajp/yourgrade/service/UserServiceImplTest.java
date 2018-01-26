@@ -39,30 +39,36 @@ public class UserServiceImplTest {
         verify(userServiceImpl, only()).addUser("af", "adf.nl", true, "adf", "nl");
     }
 
-    //This method checks if the function deleteUser is called the appropriate amount of times.
-    @Test
-    public void deleteUser() {
-        //Calls the method.
-        userServiceImpl.deleteUser(0);
-        //Checks how many times the method has been called.
-        verify(userServiceImpl, only()).deleteUser(0);
-    }
+    /**
+     * Removed
+     */
+//    //This method checks if the function deleteUser is called the appropriate amount of times.
+//    @Test
+//    public void deleteUser() {
+//        //Calls the method.
+//        userServiceImpl.deleteUser(0);
+//        //Checks how many times the method has been called.
+//        verify(userServiceImpl, only()).deleteUser(0);
+//    }
 
-    //This method tests the return values of the method getUserById.
-    @Test
-    public void getUserById() {
-        //Give value that will be returned when a user is searched in the repo (id).
-        when(userServiceImpl.getUserById(0)).thenReturn(u);
-        //Get a user from the service.
-        User result = userServiceImpl.getUserById(0);
-        //Check if the values are correct.
-        assertEquals(0,result.getId());
-        assertEquals("af", result.getName());
-        assertEquals("adf.nl", result.getEmail());
-        assertEquals(true, result.isAdmin());
-        assertEquals("adf", result.getPassword());
-        assertEquals("nl",result.getLanguage());
-    }
+    /**
+     * Removed
+     */
+//    //This method tests the return values of the method getUserById.
+//    @Test
+//    public void getUserById() {
+//        //Give value that will be returned when a user is searched in the repo (id).
+//        when(userServiceImpl.getUserById(0)).thenReturn(u);
+//        //Get a user from the service.
+//        User result = userServiceImpl.getUserById(0);
+//        //Check if the values are correct.
+//        assertEquals(0,result.getId());
+//        assertEquals("af", result.getName());
+//        assertEquals("adf.nl", result.getEmail());
+//        assertEquals(true, result.isAdmin());
+//        assertEquals("adf", result.getPassword());
+//        assertEquals("nl",result.getLanguage());
+//    }
 
 
 }

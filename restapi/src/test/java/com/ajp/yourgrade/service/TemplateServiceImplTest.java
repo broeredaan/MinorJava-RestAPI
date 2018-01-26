@@ -74,22 +74,25 @@ public class TemplateServiceImplTest {
 
     }
 
-    //This method tests the return values of the method getTemplateByUser.
-    @Test
-    public void getTemplateByUser() {
-        //Create a List so it can be returned by the Mock class.
-        List<Template> templateList = new ArrayList<Template>();
-        templateList.add(template);
-        //Give value that will be returned when a template is searched in the repo (user).
-        when(templateRepository.findByUser(userMock)).thenReturn(templateList);
-        //Get a template from the service then add it to the List.
-        List<Template> result = templateServiceImpl.getTemplateByUser(userMock);
-        //Check if the values are correct.
-        for (Template template : result) {
-            assertEquals(0,template.getId());
-            assertEquals("Test", template.getName());
-            assertEquals(1, template.getGradeDeviation());
-            assertEquals(true, template.isCommentNeeded());
-        }
-    }
+/**
+ * Removed
+ */
+//    //This method tests the return values of the method getTemplateByUser.
+//    @Test
+//    public void getTemplateByUser() {
+//        //Create a List so it can be returned by the Mock class.
+//        List<Template> templateList = new ArrayList<Template>();
+//        templateList.add(template);
+//        //Give value that will be returned when a template is searched in the repo (user).
+//        when(templateRepository.findByUser(userMock)).thenReturn(templateList);
+//        //Get a template from the service then add it to the List.
+//        List<Template> result = templateServiceImpl.getTemplateByUser(userMock);
+//        //Check if the values are correct.
+//        for (Template template : result) {
+//            assertEquals(0,template.getId());
+//            assertEquals("Test", template.getName());
+//            assertEquals(1, template.getGradeDeviation());
+//            assertEquals(true, template.isCommentNeeded());
+//        }
+//    }
 }

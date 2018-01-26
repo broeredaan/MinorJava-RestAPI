@@ -55,14 +55,17 @@ public class RatingServiceImplTest {
         verify(ratingServiceImplMock, only()).addRating(8.0, "Testing", groupMemberMock, groupMemberMock);
     }
 
-    //This method checks if the function deleteRating is called the appropriate amount of times.
-    @Test
-    public void deleteRating() {
-        //Calls the method.
-        ratingServiceImplMock.deleteRating(0);
-        //Checks how many times the method has been called.
-        verify(ratingServiceImplMock, only()).deleteRating(0);
-    }
+    /**
+     * Removed
+     */
+//    //This method checks if the function deleteRating is called the appropriate amount of times.
+//    @Test
+//    public void deleteRating() {
+//        //Calls the method.
+//        ratingServiceImplMock.deleteRating(0);
+//        //Checks how many times the method has been called.
+//        verify(ratingServiceImplMock, only()).deleteRating(0);
+//    }
 
     //This method checks if the function saveRating is called the appropriate amount of times.
     @Test
@@ -73,20 +76,23 @@ public class RatingServiceImplTest {
         verify(ratingServiceImplMock, only()).saveRating(rating);
     }
 
-    //This method tests the return values of the method getById.
-    @Test
-    public void getById() {
-        //Give value that will be returned when a rating is searched in the repo (id)
-        when(ratingRepository.findById(0)).thenReturn(rating);
-        //Get a rating from the service
-        Rating result = ratingServiceImpl.getById(0);
-        //Check if the values are correct.
-        assertEquals(0,result.getId());
-        assertEquals(6.0, result.getGrade());
-        assertEquals("TESTING", result.getComment());
-        assertEquals(null, result.getGroupMember());
-        assertEquals(null, result.getRatedMember());
-    }
+    /**
+     * Removed
+     */
+//    //This method tests the return values of the method getById.
+//    @Test
+//    public void getById() {
+//        //Give value that will be returned when a rating is searched in the repo (id)
+//        when(ratingRepository.findById(0)).thenReturn(rating);
+//        //Get a rating from the service
+//        Rating result = ratingServiceImpl.getById(0);
+//        //Check if the values are correct.
+//        assertEquals(0,result.getId());
+//        assertEquals(6.0, result.getGrade());
+//        assertEquals("TESTING", result.getComment());
+//        assertEquals(null, result.getGroupMember());
+//        assertEquals(null, result.getRatedMember());
+//    }
 
     //This method tests the return values of the method getByGroupMember.
     @Test
