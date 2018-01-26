@@ -13,18 +13,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * The RateController is responsible for all API calls regarding the evaluation of group members
+ */
 @RestController
 @RequestMapping(path = "v1/rate")
 public class RateController {
 
+    //Internal reference to the services used by this class
     private GroupMemberService groupMemberService;
     private RatingService ratingService;
 
+    /**
+     * The constructor of the GroupController, used for constructor injection
+     * @param groupMemberService Save the reference to the passed-in groupMemberService inside this class
+     * @param ratingService Save the reference to the passed-in groupMemberService inside this class
+     */
     public RateController(@Autowired GroupMemberService groupMemberService, RatingService ratingService) {
+        //Save the passed in references
         this.groupMemberService = groupMemberService;
         this.ratingService = ratingService;
     }
 
+    /**
+     * API call to get all the relevant information to rate a group
+     * @param token RequestParam "token" retrieved after first login
+     * @return RatingInfo Returns a raw Json string containing the relevant data, based on the RatingInfo model
+     */
     @JsonView(View.Public.class)
     @RequestMapping(method = RequestMethod.GET, path = "start")
     public ResponseEntity<RatingInfo> startRateMembers(@RequestParam(value = "token") String token) {
@@ -65,6 +80,11 @@ public class RateController {
         return ResponseEntity.ok(ratingInfo);
     }
 
+    /**
+     * API call for submitting the group rating
+     * @param body Raw JSON string filled with the rating information, based on the RatingBody model
+     * @return Boolean Returns true if the call was handled successfully
+     */
     @RequestMapping(method = RequestMethod.POST, path = "finish")
     public ResponseEntity<Boolean> rateMembers(@RequestBody RatingBody body) {
 

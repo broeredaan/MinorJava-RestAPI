@@ -22,7 +22,7 @@ public class PdfServiceImpl implements PdfService {
         pdf.print("The following Grades have been filled in", 24);
         pdf.print("", 24);
         for (GroupMember member : group.getGroupMembers()) {
-            pdf.print("Member " + member.getName() + "Is given the following rates", 20);
+            pdf.print("Member " + member.getName() + " Is given the following rates", 20);
             for (GroupMember ratedMember : group.getGroupMembers()) {
                 Set<Rating> ratings = ratedMember.getRatings();
                 Iterator iterator = ratings.iterator();
